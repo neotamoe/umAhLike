@@ -1,8 +1,8 @@
-import React, {Component, useState} from 'react';
+import React, {useState} from 'react';
 import { Button, View, Text, StyleSheet } from 'react-native';
 import { Input } from 'react-native-elements';
 
-const Login = () => {
+const Login = ({navigation}) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
@@ -10,19 +10,26 @@ const Login = () => {
     <View style={styles.container}>
       <Text style={styles.header}>Login Screen</Text>
       <Input
-        errorStyle={styles.inputError}
-        errorMessage='Enter a valid email address'
+        value={email}
+        placeholder='Email'
+        // errorStyle={styles.inputError}
+        // errorMessage='Enter a valid email address'
         onChangeText={(value) => setEmail(value)}
       />
       <Input
+        value={password}
         placeholder='Password'
-        errorStyle={styles.inputError}
-        errorMessage='Password must be at least 4 characters'
+        // errorStyle={styles.inputError}
+        // errorMessage='Password must be at least 4 characters'
         onChange={(e) => setPassword(e.nativeEvent.text)}
       />
       <Button 
+        title="Log In"
+        onPress={() => console.log("log in button pushed")}
+      />
+      <Button 
         title="New User?  Click to Sign Up." 
-        onPress={() => this.props.navigation.navigate('SignUp')}
+        onPress={() => navigation.navigate('SignUp')}
       />
     </View>
   )  
