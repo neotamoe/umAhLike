@@ -25,7 +25,10 @@ const Login = ({navigation}) => {
       />
       <Button 
         title="Log In"
-        onPress={() => console.log("log in button pushed")}
+        onPress={() => {
+          console.log("log in button pushed");
+          navigation.navigate('Events');
+        }}
       />
       <Button 
         title="New User?  Click to Sign Up." 
