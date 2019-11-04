@@ -21,6 +21,8 @@ import { createStackNavigator } from "react-navigation-stack";
 
 import Login from './Screens/Login';
 import SignUp from './Screens/SignUp';
+import Events from './Screens/Events';
+import AddEvent from './Screens/AddEvent';
 
 
 export default class App extends React.Component {
@@ -29,12 +31,19 @@ export default class App extends React.Component {
   }
 }
 
+// TODO: redo using auth flow: example: https://reactnavigation.org/docs/en/auth-flow.html
 const AppNavigator = createStackNavigator({
   Login: {
     screen: Login
   },
   SignUp: {
     screen: SignUp
+  },
+  Events: {
+    screen: Events
+  },
+  AddEvent: {
+    screen: AddEvent
   }
 },
 {
