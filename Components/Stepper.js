@@ -9,9 +9,11 @@ const Stepper = () => {
         <TouchableOpacity style={styles.button}>
           <Text>-</Text>
         </TouchableOpacity>
-        <Text style={styles.value}>
-          {value}
-        </Text>
+        <View style={styles.valueContainer}>
+          <Text style={styles.value}>
+            {value}
+          </Text>
+        </View>
         <TouchableOpacity style={styles.button}>
           <Text>+</Text>
         </TouchableOpacity>
@@ -22,26 +24,31 @@ const Stepper = () => {
 const styles = StyleSheet.create({
   stepper: {
     display: 'flex',
-    flex: 1,
     flexDirection: 'row',
     alignItems: 'stretch',
-    // borderStyle: 'solid',
-    // borderWidth: 5,
-    // borderColor: 'purple',
+    borderWidth: 2,
+    borderColor: 'lightgray',
+    borderRadius: 8,
+    margin: 10,
+    width: '40%',
   },
   value: {
-    height: 60,
-    padding: 20,
+    height: 40,
+    padding: 10,
     backgroundColor: 'white',
+    lineHeight: 20,
+    textAlign: 'center'
+  },
+  valueContainer: {
+    width: '34%'
   },
   button: {
     alignItems: 'center',
     backgroundColor: 'lightgray',
     justifyContent: 'center',
-    paddingLeft: 20,
-    paddingRight: 20,
-    height: 60,
-    borderRadius: 8,
+    width: 40,
+    height: 40,
+    width: '33%',
   },
 })
 
