@@ -13,7 +13,7 @@ const Stepper = () => {
             if(value==0){ return }
             setValue(value - 1)
           }}>
-          <Text>-</Text>
+          <Text style={styles.buttonText}>-</Text>
         </TouchableOpacity>
         <View style={styles.valueContainer}>
           <Text style={styles.value}>
@@ -21,7 +21,7 @@ const Stepper = () => {
           </Text>
         </View>
         <TouchableOpacity style={styles.button} onPress={() => setValue(value + 1)}>
-          <Text>+</Text>
+          <Text style={styles.buttonText}>+</Text>
         </TouchableOpacity>
       </View>
   );
@@ -44,7 +44,8 @@ const styles = StyleSheet.create({
     padding: 10,
     backgroundColor: 'white',
     lineHeight: 20,
-    textAlign: 'center'
+    textAlign: 'center',
+    fontSize: 18,
   },
   valueContainer: {
     width: '34%'
@@ -57,6 +58,9 @@ const styles = StyleSheet.create({
     height: 40,
     width: '33%',
   },
+  buttonText: {
+    fontSize: 24,
+  }
 })
 
 export default Stepper;
