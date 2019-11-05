@@ -4,9 +4,15 @@ import { Text, TouchableOpacity, View, StyleSheet } from 'react-native';
 const Stepper = () => {
   const [value, setValue] = useState(0);
 
+
   return (
       <View style={styles.stepper}>
-        <TouchableOpacity style={styles.button}>
+        <TouchableOpacity 
+          style={styles.button} 
+          onPress={() => {
+            if(value==0){ return }
+            setValue(value - 1)
+          }}>
           <Text>-</Text>
         </TouchableOpacity>
         <View style={styles.valueContainer}>
@@ -14,7 +20,7 @@ const Stepper = () => {
             {value}
           </Text>
         </View>
-        <TouchableOpacity style={styles.button}>
+        <TouchableOpacity style={styles.button} onPress={() => setValue(value + 1)}>
           <Text>+</Text>
         </TouchableOpacity>
       </View>
