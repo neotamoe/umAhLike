@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, StyleSheet, Button } from 'react-native';
+import { View, Text, TextInput, StyleSheet, Button, Platform } from 'react-native';
 
 import Stepper from '../Components/Stepper';
 import DateTimePicker from '@react-native-community/datetimepicker';
@@ -21,7 +21,7 @@ const AddEvent = () => {
         value={name}
         onChangeText={text => setName(text)}
       />
-      <Text>Date: {formattedDate} {formattedTime}</Text>
+      <Text>Date: {formattedDate}</Text>
       <View>
         <Button onPress={() => {
           setShow(true); 
@@ -41,10 +41,11 @@ const AddEvent = () => {
           display="default"
           onChange={(e, date) => {
             console.log(date);
+            Platform.OS === 'ios' ? setShow(false) : setShow(false);
             setDate(date);
             setFormattedDate(moment(date).format('MMM-DD-YYYY'));
             setFormattedTime(moment(date).format('h:mm A'));
-            setShow(false);
+            // setShow(false);
           }} />
         }
       <View style={styles.allSteppers}>
