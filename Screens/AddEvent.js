@@ -16,9 +16,41 @@ const AddEvent = () => {
         onChangeText={text => setName(text)}
       />
       <Text>Insert Date Picker Here</Text>
-      <Stepper />
-      <Stepper />
-      <Stepper />
+      <View style={styles.allSteppers}>
+      <View style={styles.stepperContainer}>
+        <Text style={styles.stepperLabel}>Um</Text>  
+        <Stepper />
+      </View>
+      <View style={styles.stepperContainer}>
+        <Text style={styles.stepperLabel}>Ah</Text>  
+        <Stepper />
+      </View>
+      <View style={styles.stepperContainer}>
+        <Text style={styles.stepperLabel}>Like</Text>  
+        <Stepper />
+      </View>
+      <View style={styles.stepperContainer}>
+        <Text style={styles.stepperLabel}>So</Text>  
+        <Stepper />
+      </View>
+      <View style={styles.stepperContainer}>
+        <Text style={styles.stepperLabel}>You Know</Text>  
+        <Stepper />
+      </View>
+      <View style={styles.stepperContainer}>
+        <Text style={styles.stepperLabel}>But</Text>  
+        <Stepper />
+      </View>
+      <View style={styles.stepperContainer}>
+        <Text style={styles.stepperLabel}>And</Text>  
+        <Stepper />
+      </View>
+      <View style={styles.stepperContainer}>
+        <Text style={styles.stepperLabel}>Anyway</Text>  
+        <Stepper />
+      </View>
+    </View>
+
     </View>
   )
 };
@@ -38,6 +70,21 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     padding: 10,
     margin: 10
+  },
+  stepperLabel: {
+    textAlign: 'center',
+    marginLeft: 10,
+    fontSize: 18,
+    color: 'purple',
+    width: '80%'
+  },
+  stepperContainer: {
+    width: '50%'
+  },
+  allSteppers: {
+    display: 'flex',
+    flexDirection: 'row',
+    flexWrap: 'wrap'
   }
 })
 
