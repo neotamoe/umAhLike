@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, StyleSheet, Button, Platform } from 'react-native';
+import { View, Text, TextInput, StyleSheet, Button, Platform, TouchableOpacity } from 'react-native';
 
 import Stepper from '../Components/Stepper';
 import DateTimePicker from '@react-native-community/datetimepicker';
@@ -15,25 +15,32 @@ const AddEvent = () => {
 
   return (
     <View style={styles.container}>
+      <Text>Speaker Name:</Text>
       <TextInput 
         style={styles.input}
         placeholder='Enter speaker name'
         value={name}
         onChangeText={text => setName(text)}
       />
-      <Text>Date: {formattedDate}</Text>
-      <View>
-        <Button onPress={() => {
-          setShow(true); 
-          setMode('date')
-        }} title="Edit Date" />
-      </View>
-      <Text>Time: {formattedTime}</Text>
-      <View>
-        <Button onPress={() => {
-          setShow(true);
-          setMode('time');
-        }} title="Edit Time" />
+      <View style={styles.dateTimeContainer}>
+        <View style={styles.halfWidth}>
+          <Text>Date: </Text>
+          <Text style={styles.dateTime} onPress={() => {
+            setShow(true);
+            setMode(Platform.OS === 'ios' ? 'datetime' : 'date');
+          }}>
+            {formattedDate}
+          </Text>
+        </View>
+        <View style={styles.halfWidth}>
+          <Text>Time: </Text>
+          <Text style={styles.dateTime} onPress={() => {
+            setShow(true);
+            setMode(Platform.OS === 'ios' ? 'datetime' : 'time');
+          }}>
+            {formattedTime}
+          </Text>
+        </View>
       </View>
         { show && <DateTimePicker value={date}
           mode={mode}
@@ -41,13 +48,19 @@ const AddEvent = () => {
           display="default"
           onChange={(e, date) => {
             console.log(date);
-            Platform.OS === 'ios' ? setShow(false) : setShow(false);
+            Platform.OS === 'ios' ? setShow(true) : setShow(false);
             setDate(date);
             setFormattedDate(moment(date).format('MMM-DD-YYYY'));
             setFormattedTime(moment(date).format('h:mm A'));
-            // setShow(false);
-          }} />
+          }} 
+          />
         }
+        { show && Platform.OS === 'ios' 
+          ? <Button 
+              title="OK"
+              onPress={() => setShow(false)} 
+            /> 
+          : null }
       <View style={styles.allSteppers}>
       <View style={styles.stepperContainer}>
         <Text style={styles.stepperLabel}>Um</Text>  
@@ -95,13 +108,17 @@ const styles = StyleSheet.create({
   container: {
     display: 'flex',
     flex: 1,
+    marginLeft: 10,
+    marginTop: 10
   },
   input: {
     height: 40,
     borderColor: 'gray',
     borderWidth: 1,
     padding: 10,
-    margin: 10
+    marginTop: 10,
+    marginBottom: 10,
+    marginRight: 10
   },
   stepperLabel: {
     textAlign: 'center',
@@ -116,7 +133,21 @@ const styles = StyleSheet.create({
   allSteppers: {
     display: 'flex',
     flexDirection: 'row',
-    flexWrap: 'wrap'
+    flexWrap: 'wrap',
+    marginTop: 10
+  },
+  dateTime: {
+    color: 'blue',
+    textDecorationLine: 'underline'
+  },
+  dateTimeContainer: {
+    display: 'flex',
+    flexDirection: 'row',
+  },
+  halfWidth: {
+    width: '50%',
+    display: 'flex',
+    flexDirection: 'row'
   }
 })
 
