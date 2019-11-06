@@ -1,26 +1,34 @@
 import React, { useState } from 'react';
-import { Text, TouchableOpacity, View, StyleSheet } from 'react-native';
+import { Text, TextInput, TouchableOpacity, View, StyleSheet } from 'react-native';
 
-const Stepper = () => {
+const Stepper = (props) => {
   const [value, setValue] = useState(0);
-
-
+  const updateValue = e => {
+    setValue({
+      ...value,
+      'fakeKey': e.nativeEvent.text
+    });
+  };
   return (
       <View style={styles.stepper}>
         <TouchableOpacity 
-          style={styles.button} 
+          style={styles.button}
           onPress={() => {
             if(value==0){ return }
-            setValue(value - 1)
+            setValue(parseInt(value) - 1); props.onChange(parseInt(value)-1, props.id); 
           }}>
           <Text style={styles.buttonText}>-</Text>
         </TouchableOpacity>
         <View style={styles.valueContainer}>
-          <Text style={styles.value}>
-            {value}
-          </Text>
+          <TextInput 
+            id={props.id} 
+            style={styles.value}
+            onChange={(e) => { setValue(e.nativeEvent.text); props.onChange(e.nativeEvent.text,props.id)}}
+          >
+            {value} 
+          </TextInput>
         </View>
-        <TouchableOpacity style={styles.button} onPress={() => setValue(value + 1)}>
+        <TouchableOpacity style={styles.button} onPress={() => {setValue(parseInt(value) + 1); props.onChange(parseInt(value)+1, props.id); }}>
           <Text style={styles.buttonText}>+</Text>
         </TouchableOpacity>
       </View>
