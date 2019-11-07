@@ -12,7 +12,8 @@ const AddEvent = ({navigation}) => {
   const [formattedTime, setFormattedTime] = useState(moment(date).format('h:mm A'));
   const [mode, setMode] = useState('date');
   const [show, setShow] = useState(false);
-  const [ums, setUms] = useState({um: 0, ah: 0, like: 0, so: 0, youKnow: 0, but: 0, and: 0, anyway: 0})
+  const [ums, setUms] = useState({um: 0, ah: 0, like: 0, so: 0, youKnow: 0, but: 0, and: 0, anyway: 0});
+  const [nameError, setNameError] = useState(false);
   
   onStepperChange = (value, id) => {
     // TODO: update ums state
@@ -23,10 +24,14 @@ const AddEvent = ({navigation}) => {
     <View style={styles.container}>
       <Text>Speaker Name:</Text>
       <TextInput 
-        style={styles.input}
+        style={ nameError ? styles.inputError : styles.input }
         placeholder='Enter speaker name'
         value={name}
-        onChangeText={text => setName(text)}
+        onChangeText={text => {
+          setName(text)
+          if(!text || text.trim()===""){ setNameError(true) }
+          else if (nameError){ setNameError(false) }
+        }}
       />
       <View style={styles.dateTimeContainer}>
         <View style={styles.halfWidth}>
@@ -104,7 +109,11 @@ const AddEvent = ({navigation}) => {
       <Button 
         title="Save Event" 
         onPress={() => {
-          // navigation.navigate("Events");
+          if(!name || name.trim()==="") { 
+            setNameError(true);
+            return; 
+          }
+          navigation.navigate("Events");
           console.log("save button pressed");
           console.log('date:', date);
           console.log('name:', name);
@@ -130,6 +139,15 @@ const styles = StyleSheet.create({
   input: {
     height: 40,
     borderColor: 'gray',
+    borderWidth: 1,
+    padding: 10,
+    marginTop: 10,
+    marginBottom: 10,
+    marginRight: 10
+  },
+  inputError: {
+    height: 40,
+    borderColor: 'red',
     borderWidth: 1,
     padding: 10,
     marginTop: 10,
