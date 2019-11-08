@@ -16,8 +16,10 @@ const AddEvent = ({navigation}) => {
   const [nameError, setNameError] = useState(false);
   
   onStepperChange = (value, id) => {
-    // TODO: update ums state
-    console.log(`${id} stepper changed to value -> ${value}`)
+    // console.log(`${id} stepper changed to value -> ${value}`)
+    setUms({
+      ...ums, 
+      [id]: value})
   }
 
   return (
