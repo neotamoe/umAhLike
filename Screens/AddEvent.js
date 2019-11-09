@@ -20,6 +20,7 @@ const AddEvent = ({navigation}) => {
     setUms({
       ...ums, 
       [id]: value})
+
   }
 
   return (
@@ -111,11 +112,15 @@ const AddEvent = ({navigation}) => {
       <Button 
         title="Save Event" 
         onPress={() => {
+<<<<<<< HEAD
           if(!name || name.trim()==="") { 
             setNameError(true);
             return; 
           }
           navigation.navigate("Events");
+=======
+          // navigation.navigate("Events");
+>>>>>>> c37c5ba237dd70fdda07dbe8fd57fcfcc8a9cac3
           console.log("save button pressed");
           console.log('date:', date);
           console.log('name:', name);
@@ -147,6 +152,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     marginRight: 10
   },
+<<<<<<< HEAD
   inputError: {
     height: 40,
     borderColor: 'red',
@@ -156,6 +162,8 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     marginRight: 10
   },
+=======
+>>>>>>> c37c5ba237dd70fdda07dbe8fd57fcfcc8a9cac3
   stepperLabel: {
     textAlign: 'center',
     marginLeft: 10,
