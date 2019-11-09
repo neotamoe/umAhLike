@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, StyleSheet, Button, Platform, TouchableOpacity } from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage';
 
 import Stepper from '../Components/Stepper';
 import DateTimePicker from '@react-native-community/datetimepicker';
@@ -21,6 +22,15 @@ const AddEvent = ({navigation}) => {
       ...ums, 
       [id]: value})
 
+  }
+
+  saveUms = async (name, ums) => {
+    try {
+      // await AsyncStorage.setItem(`${date}***${name}`, ums)
+      await AsyncStorage.setItem(name, JSON.stringify(ums))
+    } catch (e) {
+      console.log("Error: ", e);
+    }
   }
 
   return (
@@ -117,6 +127,7 @@ const AddEvent = ({navigation}) => {
             setNameError(true);
             return; 
           }
+          saveUms(name, ums);
           navigation.navigate("Events");
 =======
           // navigation.navigate("Events");
