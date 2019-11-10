@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import { SafeView, View, ScrollView, Text, StyleSheet, Button, TouchableOpacity } from 'react-native';
+import { SafeView, View, ScrollView, Text, StyleSheet, Button } from 'react-native';
 import { ListItem } from 'react-native-elements';
 import AsyncStorage from '@react-native-community/async-storage';
 
@@ -11,7 +11,6 @@ const Events = () => {
     AsyncStorage.getAllKeys().then((keys) => {
       return AsyncStorage.multiGet(keys)
         .then((result) => {
-          console.log(result);
           if(!isCancelled){
             setEvents(result)
           }
@@ -19,19 +18,21 @@ const Events = () => {
           console.log(e);
         });
     });
-    return () => { isCancelled = true; }
-  }, [events])
-
+    return () => { isCancelled = true };
+  }, [events]);
 
   return (
     <ScrollView>
-      {events.map((event, index) => (
+      {events.length > 0 ? 
+        events.map((event, index) => (
         <ListItem 
           key={index} 
           title={event[0]}
           bottomDivider
         />
-      ))}
+      ))
+        : <ListItem key="empty" title="No speaker events saved." />
+      }
     </ScrollView>
   );
 }

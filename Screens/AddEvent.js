@@ -17,17 +17,20 @@ const AddEvent = ({navigation}) => {
   const [nameError, setNameError] = useState(false);
   
   onStepperChange = (value, id) => {
-    // console.log(`${id} stepper changed to value -> ${value}`)
     setUms({
       ...ums, 
       [id]: value})
-
   }
 
   saveUms = async (name, ums) => {
+    const itemToSave = {
+        "ums": ums,
+        "date": formattedDate,
+        "time": formattedTime,
+        "name": name
+    }
     try {
-      // await AsyncStorage.setItem(`${date}***${name}`, ums)
-      await AsyncStorage.setItem(name, JSON.stringify(ums))
+      await AsyncStorage.setItem(`${formattedDate} ${formattedTime} -- ${name}`, JSON.stringify(itemToSave))
     } catch (e) {
       console.log("Error: ", e);
     }
