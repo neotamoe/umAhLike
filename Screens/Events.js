@@ -2,27 +2,30 @@ import React, {useEffect, useState} from 'react';
 import { SafeView, View, ScrollView, Text, StyleSheet, Button } from 'react-native';
 import { ListItem } from 'react-native-elements';
 import AsyncStorage from '@react-native-community/async-storage';
+import { NavigationEvents } from 'react-navigation';
 
 const Events = () => {
   const [events, setEvents] = useState([]);
 
-  useEffect(() => {
-    let isCancelled = false;
+  getAllData = () => {
     AsyncStorage.getAllKeys().then((keys) => {
       return AsyncStorage.multiGet(keys)
         .then((result) => {
-          if(!isCancelled){
-            setEvents(result)
-          }
+          setEvents(result)
         }).catch((e) =>{
           console.log(e);
         });
-    });
-    return () => { isCancelled = true };
-  }, [events]);
+    });  
+  }
 
   return (
     <ScrollView>
+      <NavigationEvents 
+        onWillFocus={payload => {
+          getAllData()
+          console.log(payload)
+        }}
+      />
       {events.length > 0 ? 
         events.map((event, index) => (
         <ListItem 
