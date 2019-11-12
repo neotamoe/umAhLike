@@ -11,6 +11,7 @@ const Events = () => {
     AsyncStorage.getAllKeys().then((keys) => {
       return AsyncStorage.multiGet(keys)
         .then((result) => {
+          result.sort().reverse();
           setEvents(result)
         }).catch((e) =>{
           console.log(e);
@@ -23,7 +24,7 @@ const Events = () => {
       <NavigationEvents 
         onWillFocus={payload => {
           getAllData()
-          console.log(payload)
+          // console.log(payload)
         }}
       />
       {events.length > 0 ? 
