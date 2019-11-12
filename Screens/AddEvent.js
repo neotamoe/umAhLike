@@ -5,6 +5,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 import Stepper from '../Components/Stepper';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import moment from 'moment';
+// import ToggleSwitch from 'toggle-switch-react-native';
 
 const AddEvent = ({navigation}) => {
   const [name, setName] = useState('');
@@ -15,6 +16,7 @@ const AddEvent = ({navigation}) => {
   const [show, setShow] = useState(false);
   const [ums, setUms] = useState({um: 0, ah: 0, like: 0, so: 0, youKnow: 0, but: 0, and: 0, anyway: 0});
   const [nameError, setNameError] = useState(false);
+  const [showTimer, setShowTimer] = useState(false);
   
   onStepperChange = (value, id) => {
     setUms({
@@ -49,6 +51,15 @@ const AddEvent = ({navigation}) => {
           else if (nameError){ setNameError(false) }
         }}
       />
+      {/* <ToggleSwitch 
+        isOn={showTimer}
+        onColor="blue"
+        label="Show Timer"
+        labelStyle={{color: "black"}}
+        onToggle={() => {
+          setShowTimer(!showTimer)
+        }}
+      /> */}
       <View style={styles.dateTimeContainer}>
         <View style={styles.halfWidth}>
           <Text>Date: </Text>
@@ -72,7 +83,7 @@ const AddEvent = ({navigation}) => {
         { show && <DateTimePicker value={date}
           mode={mode}
           is24Hour={true}
-          display="default"
+          display="default"www
           onChange={(e, date) => {
             console.log(date);
             Platform.OS === 'ios' ? setShow(true) : setShow(false);
@@ -91,35 +102,35 @@ const AddEvent = ({navigation}) => {
       <View style={styles.allSteppers}>
       <View style={styles.stepperContainer}>
         <Text style={styles.stepperLabel}>Um</Text>  
-        <Stepper id="um" onChange={this.onStepperChange}/>
+        <Stepper id="um" onChange={onStepperChange}/>
       </View>
       <View style={styles.stepperContainer}>
         <Text style={styles.stepperLabel}>Ah</Text>  
-        <Stepper id="ah" onChange={this.onStepperChange}/>
+        <Stepper id="ah" onChange={onStepperChange}/>
       </View>
       <View style={styles.stepperContainer}>
         <Text style={styles.stepperLabel}>Like</Text>  
-        <Stepper id="like" onChange={this.onStepperChange}/>
+        <Stepper id="like" onChange={onStepperChange}/>
       </View>
       <View style={styles.stepperContainer}>
         <Text style={styles.stepperLabel}>So</Text>  
-        <Stepper id="so" onChange={this.onStepperChange}/>
+        <Stepper id="so" onChange={onStepperChange}/>
       </View>
       <View style={styles.stepperContainer}>
         <Text style={styles.stepperLabel}>You Know</Text>  
-        <Stepper id="youKnow" onChange={this.onStepperChange}/>
+        <Stepper id="youKnow" onChange={onStepperChange}/>
       </View>
       <View style={styles.stepperContainer}>
         <Text style={styles.stepperLabel}>But</Text>  
-        <Stepper id="but" onChange={this.onStepperChange}/>
+        <Stepper id="but" onChange={onStepperChange}/>
       </View>
       <View style={styles.stepperContainer}>
         <Text style={styles.stepperLabel}>And</Text>  
-        <Stepper id="and" onChange={this.onStepperChange}/>
+        <Stepper id="and" onChange={onStepperChange}/>
       </View>
       <View style={styles.stepperContainer}>
         <Text style={styles.stepperLabel}>Anyway</Text>  
-        <Stepper id="anyway" onChange={this.onStepperChange}/>
+        <Stepper id="anyway" onChange={onStepperChange}/>
       </View>
     </View>
       <Button 
@@ -135,7 +146,6 @@ const AddEvent = ({navigation}) => {
           console.log('date:', date);
           console.log('name:', name);
           console.log('ums object:', ums);
-          // TODO: add save functionality here
         }}
       />
     </View>
