@@ -4,7 +4,7 @@ import { ListItem } from 'react-native-elements';
 import AsyncStorage from '@react-native-community/async-storage';
 import { NavigationEvents } from 'react-navigation';
 
-const Events = () => {
+const Events = ({navigation}) => {
   const [events, setEvents] = useState([]);
 
   getAllData = () => {
@@ -33,6 +33,8 @@ const Events = () => {
           key={index} 
           title={event[0]}
           bottomDivider
+          chevron={true}
+          onPress={() => navigation.navigate('SavedEvent', {key: event[0], value: event[1]})}
         />
       ))
         : <ListItem key="empty" title="No speaker events saved." />
