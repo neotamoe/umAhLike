@@ -4,7 +4,7 @@ import { Divider } from 'react-native-elements';
 
 const SavedEvent = ({navigation}) => {
   let valueObject = JSON.parse(navigation.getParam('value'));
-  console.log(valueObject);
+  let valueObjectData = Object.entries(valueObject.ums);
   let keyStringAsArray = navigation.getParam('key').split(" -- ");
   let name = keyStringAsArray[1];
   let dateTime = keyStringAsArray[0];
@@ -21,38 +21,12 @@ const SavedEvent = ({navigation}) => {
         <Text style={styles.data}>{dateTime}</Text>
       </View>
       <Divider style={styles.divider}/>
-      <View style={[styles.grouping, styles.umGrouping]}>
-        <Text style={styles.title}>Um: </Text>
-        <Text style={styles.data}>{valueObject.ums.um}</Text>
-      </View>
-      <View style={[styles.grouping, styles.umGrouping]}>
-        <Text style={styles.title}>Ah: </Text>
-        <Text style={styles.data}>{valueObject.ums.ah}</Text>
-      </View>
-      <View style={[styles.grouping, styles.umGrouping]}>
-        <Text style={styles.title}>Like: </Text>
-        <Text style={styles.data}>{valueObject.ums.like}</Text>
-      </View>
-      <View style={[styles.grouping, styles.umGrouping]}>
-        <Text style={styles.title}>Anyway: </Text>
-        <Text style={styles.data}>{valueObject.ums.anyway}</Text>
-      </View>
-      <View style={[styles.grouping, styles.umGrouping]}>
-        <Text style={styles.title}>And: </Text>
-        <Text style={styles.data}>{valueObject.ums.and}</Text>
-      </View>
-      <View style={[styles.grouping, styles.umGrouping]}>
-        <Text style={styles.title}>You Know: </Text>
-        <Text style={styles.data}>{valueObject.ums.youKnow}</Text>
-      </View>
-      <View style={[styles.grouping, styles.umGrouping]}>
-        <Text style={styles.title}>But: </Text>
-        <Text style={styles.data}>{valueObject.ums.but}</Text>
-      </View>
-      <View style={[styles.grouping, styles.umGrouping]}>
-        <Text style={styles.title}>So:</Text>
-        <Text style={styles.data}>{valueObject.ums.so}</Text>
-      </View>
+      {valueObjectData.map((entry) => 
+        <View style={[styles.grouping, styles.umGrouping]}>
+          <Text style={styles.title}>{entry[0]}: </Text>
+          <Text style={styles.data}>{entry[1]}</Text>
+        </View>
+      )}
     </View>
   )
 };

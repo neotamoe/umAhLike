@@ -6,6 +6,7 @@ import Stepper from '../Components/Stepper';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import moment from 'moment';
 // import ToggleSwitch from 'toggle-switch-react-native';
+import { Overlay } from 'react-native-elements';
 
 const AddEvent = ({navigation}) => {
   const [name, setName] = useState('');
@@ -14,10 +15,12 @@ const AddEvent = ({navigation}) => {
   const [formattedTime, setFormattedTime] = useState(moment(date).format('h:mm A'));
   const [mode, setMode] = useState('date');
   const [show, setShow] = useState(false);
-  const [ums, setUms] = useState({um: 0, ah: 0, like: 0, so: 0, youKnow: 0, but: 0, and: 0, anyway: 0});
+  const [ums, setUms] = useState({um: 0, ah: 0, like: 0, so: 0, 'you know': 0, but: 0, and: 0, anyway: 0});
   const [nameError, setNameError] = useState(false);
   const [showTimer, setShowTimer] = useState(false);
-  
+  const [isCommentsVisible, setIsCommentsVisible] = useState(false);
+  const [comments, setComments] = useState('');
+
   onStepperChange = (value, id) => {
     setUms({
       ...ums, 
@@ -51,6 +54,7 @@ const AddEvent = ({navigation}) => {
           else if (nameError){ setNameError(false) }
         }}
       />
+      {/* consider looking at react native Switch instead of external dependency */}
       {/* <ToggleSwitch 
         isOn={showTimer}
         onColor="blue"
@@ -100,39 +104,38 @@ const AddEvent = ({navigation}) => {
             /> 
           : null }
       <View style={styles.allSteppers}>
-      <View style={styles.stepperContainer}>
-        <Text style={styles.stepperLabel}>Um</Text>  
-        <Stepper id="um" onChange={onStepperChange}/>
+        {Object.entries(ums).map((entry) => 
+          <View style={styles.stepperContainer}>
+            <Text style={styles.stepperLabel}>{entry[0]}</Text>  
+            <Stepper id={entry[0]} onChange={onStepperChange}/>
+          </View>
+        )}
       </View>
-      <View style={styles.stepperContainer}>
-        <Text style={styles.stepperLabel}>Ah</Text>  
-        <Stepper id="ah" onChange={onStepperChange}/>
-      </View>
-      <View style={styles.stepperContainer}>
-        <Text style={styles.stepperLabel}>Like</Text>  
-        <Stepper id="like" onChange={onStepperChange}/>
-      </View>
-      <View style={styles.stepperContainer}>
-        <Text style={styles.stepperLabel}>So</Text>  
-        <Stepper id="so" onChange={onStepperChange}/>
-      </View>
-      <View style={styles.stepperContainer}>
-        <Text style={styles.stepperLabel}>You Know</Text>  
-        <Stepper id="youKnow" onChange={onStepperChange}/>
-      </View>
-      <View style={styles.stepperContainer}>
-        <Text style={styles.stepperLabel}>But</Text>  
-        <Stepper id="but" onChange={onStepperChange}/>
-      </View>
-      <View style={styles.stepperContainer}>
-        <Text style={styles.stepperLabel}>And</Text>  
-        <Stepper id="and" onChange={onStepperChange}/>
-      </View>
-      <View style={styles.stepperContainer}>
-        <Text style={styles.stepperLabel}>Anyway</Text>  
-        <Stepper id="anyway" onChange={onStepperChange}/>
-      </View>
-    </View>
+      {
+        isCommentsVisible ? 
+        <Overlay 
+          isVisible
+          // onBackdropPress={() => setIsCommentsVisible(false)}
+        >
+          <Text>Test</Text>
+          <TextInput 
+            style={ styles.input }
+            placeholder='Enter comments'
+            value={comments}
+            onChangeText={text => {
+              console.log(text)
+              // set text to ums object
+            }}
+          />
+        </Overlay>
+        : <Button 
+            title="Add Comments"
+            onPress={() => {
+              setIsCommentsVisible(true);
+            }}
+          />
+      }
+
       <Button 
         title="Save Event" 
         onPress={() => {
