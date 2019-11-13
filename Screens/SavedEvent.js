@@ -22,7 +22,7 @@ const SavedEvent = ({navigation}) => {
       </View>
       <Divider style={styles.divider}/>
       {valueObjectData.map((entry) => 
-        <View style={[styles.grouping, styles.umGrouping]}>
+        <View style={[styles.grouping, styles.umGrouping]} key={entry[0]}>
           <Text style={styles.title}>{entry[0]}: </Text>
           <Text style={styles.data}>{entry[1]}</Text>
         </View>

@@ -105,31 +105,47 @@ const AddEvent = ({navigation}) => {
           : null }
       <View style={styles.allSteppers}>
         {Object.entries(ums).map((entry) => 
-          <View style={styles.stepperContainer}>
+          <View style={styles.stepperContainer} key={entry[0]}>
             <Text style={styles.stepperLabel}>{entry[0]}</Text>  
             <Stepper id={entry[0]} onChange={onStepperChange}/>
           </View>
         )}
       </View>
+      { comments !== "" ?
+        <>
+          <Text>Comments:</Text>
+          <Text>{comments}</Text>
+        </>
+        : <></>
+      }
       {
         isCommentsVisible ? 
         <Overlay 
           isVisible
-          // onBackdropPress={() => setIsCommentsVisible(false)}
+          onBackdropPress={() => {setComments(''); setIsCommentsVisible(false)}}
         >
-          <Text>Test</Text>
+          <View>
+          <Text>Additional comments</Text>
           <TextInput 
-            style={ styles.input }
+            style={ [styles.input, styles.inputInOverlay ] }
             placeholder='Enter comments'
             value={comments}
+            multiline={true}
             onChangeText={text => {
               console.log(text)
-              // set text to ums object
+              setComments(text)
             }}
           />
+          <Button 
+            title="OK"
+            onPress={() => {
+              setIsCommentsVisible(false);
+            }}
+          />
+          </View>
         </Overlay>
         : <Button 
-            title="Add Comments"
+            title={comments==="" ? "Add Comments" : "Edit Comments"}
             onPress={() => {
               setIsCommentsVisible(true);
             }}
@@ -212,6 +228,9 @@ const styles = StyleSheet.create({
     width: '50%',
     display: 'flex',
     flexDirection: 'row'
+  },
+  inputInOverlay: {
+    height: '80%'
   }
 })
 
