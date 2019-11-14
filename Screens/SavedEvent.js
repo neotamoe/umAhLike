@@ -59,6 +59,7 @@ const styles = StyleSheet.create({
   },
   data: {
     fontSize: 20,
+    width: '66%'
   },
   umGrouping: {
     paddingTop: 10,

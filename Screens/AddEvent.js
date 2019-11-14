@@ -30,7 +30,7 @@ const AddEvent = ({navigation}) => {
 
   saveUms = async (name, ums) => {
     const itemToSave = {
-        "ums": ums,
+        "ums": addCommentsToUms(ums, comments),
         "date": formattedDate,
         "time": formattedTime,
         "name": name
@@ -40,6 +40,11 @@ const AddEvent = ({navigation}) => {
     } catch (e) {
       console.log("Error: ", e);
     }
+  }
+
+  addCommentsToUms = (ums, comments) => {
+    const newUmsObject = {...ums, "comments": comments}
+    return newUmsObject;
   }
 
   return (
