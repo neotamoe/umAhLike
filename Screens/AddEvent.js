@@ -20,6 +20,7 @@ const AddEvent = ({navigation}) => {
   const [showTimer, setShowTimer] = useState(false);
   const [isCommentsVisible, setIsCommentsVisible] = useState(false);
   const [comments, setComments] = useState('');
+  const [isEditing, setIsEditing] = useState(false);
 
   onStepperChange = (value, id) => {
     setUms({
@@ -106,7 +107,18 @@ const AddEvent = ({navigation}) => {
       <View style={styles.allSteppers}>
         {Object.entries(ums).map((entry) => 
           <View style={styles.stepperContainer} key={entry[0]}>
-            <Text style={styles.stepperLabel}>{entry[0]}</Text>  
+            <TextInput 
+              value={entry[0]}
+              placeholder={entry[0]}
+              style={styles.stepperLabel}
+              autoFocus
+              editable={true}
+              onBlur={() => setIsEditing(false)}
+              onChangeText={(text) => {
+                console.log("you want to change ",entry[0] + " to ", text + " !!!!!!");
+              }}
+              />
+              {/* TODO: need to find right way to make the update happen within the ums object... */}
             <Stepper id={entry[0]} onChange={onStepperChange}/>
           </View>
         )}
