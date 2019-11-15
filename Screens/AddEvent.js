@@ -33,7 +33,8 @@ const AddEvent = ({navigation}) => {
         "ums": addCommentsToUms(ums, comments),
         "date": formattedDate,
         "time": formattedTime,
-        "name": name
+        "name": name,
+        "display":`${formattedDate} ${formattedTime} -- ${name}`
     }
     try {
       await AsyncStorage.setItem(`${formattedDate} ${formattedTime} -- ${name}`, JSON.stringify(itemToSave))
@@ -110,7 +111,7 @@ const AddEvent = ({navigation}) => {
             /> 
           : null }
       <View style={styles.allSteppers}>
-        {Object.entries(ums).map((entry) => 
+        {Object.entries(ums).sort((a,b) => a[0].localeCompare(b[0])).map((entry) => 
           <View style={styles.stepperContainer} key={entry[0]}>
             <TextInput 
               value={entry[0]}

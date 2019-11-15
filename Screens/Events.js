@@ -3,6 +3,7 @@ import { SafeView, View, ScrollView, Text, StyleSheet, Button } from 'react-nati
 import { ListItem } from 'react-native-elements';
 import AsyncStorage from '@react-native-community/async-storage';
 import { NavigationEvents } from 'react-navigation';
+import SwipeableFlatList from '../Components/SwipeableFlatList';
 
 const Events = ({navigation}) => {
   const [events, setEvents] = useState([]);
@@ -12,7 +13,8 @@ const Events = ({navigation}) => {
       return AsyncStorage.multiGet(keys)
         .then((result) => {
           result.sort().reverse();
-          setEvents(result)
+          const eventObjects = result.map(event => JSON.parse(event[1]))
+          setEvents(eventObjects)
         }).catch((e) =>{
           console.log(e);
         });
@@ -20,26 +22,41 @@ const Events = ({navigation}) => {
   }
 
   return (
-    <ScrollView>
+    // <ScrollView>
+    <View>
       <NavigationEvents 
         onWillFocus={payload => {
           getAllData()
-          // console.log(payload)
         }}
       />
-      {events.length > 0 ? 
-        events.map((event, index) => (
-        <ListItem 
-          key={index} 
-          title={event[0]}
-          bottomDivider
-          chevron={true}
-          onPress={() => navigation.navigate('SavedEvent', {key: event[0], value: event[1]})}
-        />
-      ))
-        : <ListItem key="empty" title="No speaker events saved." />
+      {
+        events.length > 0 ?
+
+      <SwipeableFlatList 
+        data={events}
+        renderItem={({item, index}) => (
+          <ListItem 
+            key={index} 
+            title={item.display}
+            bottomDivider
+            chevron={true}
+            style={{height: 48}}
+            onPress={() => navigation.navigate('SavedEvent', {key: item.display, value: JSON.stringify(item)})}
+          />
+          // <Text style={{height: 48}}>{item.display}</Text>
+        )}
+        renderRight={({item, index}) => (
+          <Text 
+            style={{width: 100, height: 48, backgroundColor: 'red', fontSize: 16, lineHeight: 48, textAlign: 'center'}}
+            onPress={() => console.log('you pressed delete for', item.display)}
+          >
+            Delete
+          </Text>
+        )}
+      />
+      : <Text>No speaker events saved.</Text>
       }
-    </ScrollView>
+    </View>
   );
 }
 
@@ -65,7 +82,7 @@ Events.navigationOptions = ({ navigation }) => ({
   ),
   headerRightContainerStyle: {
     paddingRight: 10
-  }
+  }, 
 });
 
 export default Events;
