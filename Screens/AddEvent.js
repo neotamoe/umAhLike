@@ -113,17 +113,20 @@ const AddEvent = ({navigation}) => {
       <View style={styles.allSteppers}>
         {Object.entries(ums).sort((a,b) => a[0].localeCompare(b[0])).map((entry) => 
           <View style={styles.stepperContainer} key={entry[0]}>
-            <TextInput 
-              value={entry[0]}
-              placeholder={entry[0]}
-              style={styles.stepperLabel}
-              autoFocus
-              editable={true}
-              onBlur={() => setIsEditing(false)}
-              onChangeText={(text) => {
-                console.log("you want to change ",entry[0] + " to ", text + " !!!!!!");
-              }}
+            {
+              isEditing ?
+              <TextInput 
+                value={entry[0]}
+                placeholder={entry[0]}
+                style={[styles.stepperLabel, styles.stepperLabelEditable]}
+                autoFocus
+                editable
+                onChangeText={(text) => {
+                  console.log("you want to change ",entry[0] + " to ", text + " !!!!!!");
+                }}
               />
+              : <Text style={styles.stepperLabel} onPress={setIsEditing(true)}>{entry[0]}</Text>
+            }
               {/* TODO: need to find right way to make the update happen within the ums object... */}
             <Stepper id={entry[0]} onChange={onStepperChange}/>
           </View>
@@ -224,6 +227,9 @@ const styles = StyleSheet.create({
     fontSize: 18,
     color: 'purple',
     width: '80%'
+  },
+  stepperLabelEditable: {
+    color: 'red'
   },
   stepperContainer: {
     width: '50%'
