@@ -4,6 +4,7 @@ import { ListItem } from 'react-native-elements';
 import AsyncStorage from '@react-native-community/async-storage';
 import { NavigationEvents } from 'react-navigation';
 import SwipeableFlatList from '../Components/SwipeableFlatList';
+// import SwipeableListItem from '../Components/SwipeableListItem';
 
 const Events = ({navigation}) => {
   const [events, setEvents] = useState([]);
@@ -30,8 +31,7 @@ const Events = ({navigation}) => {
         }}
       />
       {
-        events.length > 0 ?
-
+      events.length > 0 ?
       <SwipeableFlatList 
         data={events}
         renderItem={({item, index}) => (
@@ -43,7 +43,6 @@ const Events = ({navigation}) => {
             style={{height: 48}}
             onPress={() => navigation.navigate('SavedEvent', {key: item.display, value: JSON.stringify(item)})}
           />
-          // <Text style={{height: 48}}>{item.display}</Text>
         )}
         renderRight={({item, index}) => (
           <Text 
