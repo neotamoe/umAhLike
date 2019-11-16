@@ -15,15 +15,15 @@ const AddEvent = ({navigation}) => {
   const [formattedTime, setFormattedTime] = useState(moment(date).format('h:mm A'));
   const [mode, setMode] = useState('date');
   const [show, setShow] = useState(false);
-  const [ums, setUms] = useState({um: 0, ah: 0, like: 0, so: 0, 'you know': 0, 
-  // but: 0, and: 0, anyway: 0
-});
+  const [ums, setUms] = useState({um: 0, ah: 0, like: 0, so: 0, 'you know': 0});
+  // TODO: chnage initial value
   // Other filler words to consider: uh, er, okay, right, [already have: so, you know, um, ah, like]
   const [nameError, setNameError] = useState(false);
   const [showTimer, setShowTimer] = useState(false);
   const [isCommentsVisible, setIsCommentsVisible] = useState(false);
   const [comments, setComments] = useState('');
   const [isEditing, setIsEditing] = useState(false);
+  const [umsKeys, setUmsKeys] = useState(['um', 'ah', 'like', 'so', 'you know'])
 
   onStepperChange = (value, id) => {
     setUms({
@@ -121,17 +121,37 @@ const AddEvent = ({navigation}) => {
           </View>
         )}
       </View>
-      {
-        isEditing ? 
-        <Text onPress={() => setIsEditing(false)}>You're Editing!  Press to exit editing mode.</Text>
-        : <Button 
-          title="Add/Edit Filler Words"
+      <Overlay isVisible={isEditing}>
+        <Text>You can include up to 8 filler words.</Text>
+        {/* find way to dynamically add x filler word inputs based on current # of inputs */}
+        {
+          Object.entries(ums).sort((a,b) => a[0].localeCompare(b[0])).map((keyvalue) => 
+          <>
+            <TextInput 
+              style={ styles.input }
+              value={keyvalue[0]}
+              onChangeText={text => {
+                // configure way to set um key
+                console.log(text);
+              }}
+            />
+            <Text>Current Value: {keyvalue[1]}</Text>
+          </>
+          )
+        }
+        <Button 
+          title="OK"
           onPress={() => {
-            setIsEditing(true);
+            setIsEditing(false)
           }}
         />
-      }
-
+      </Overlay>
+      <Button 
+        title="Add/Edit Filler Words"
+        onPress={() => {
+          setIsEditing(true);
+        }}
+      />
       { comments !== "" ?
         <>
           <Text>Comments:</Text>
