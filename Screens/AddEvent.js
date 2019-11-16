@@ -15,7 +15,10 @@ const AddEvent = ({navigation}) => {
   const [formattedTime, setFormattedTime] = useState(moment(date).format('h:mm A'));
   const [mode, setMode] = useState('date');
   const [show, setShow] = useState(false);
-  const [ums, setUms] = useState({um: 0, ah: 0, like: 0, so: 0, 'you know': 0, but: 0, and: 0, anyway: 0});
+  const [ums, setUms] = useState({um: 0, ah: 0, like: 0, so: 0, 'you know': 0, 
+  // but: 0, and: 0, anyway: 0
+});
+  // Other filler words to consider: uh, er, okay, right, [already have: so, you know, um, ah, like]
   const [nameError, setNameError] = useState(false);
   const [showTimer, setShowTimer] = useState(false);
   const [isCommentsVisible, setIsCommentsVisible] = useState(false);
@@ -113,25 +116,22 @@ const AddEvent = ({navigation}) => {
       <View style={styles.allSteppers}>
         {Object.entries(ums).sort((a,b) => a[0].localeCompare(b[0])).map((entry) => 
           <View style={styles.stepperContainer} key={entry[0]}>
-            {
-              isEditing ?
-              <TextInput 
-                value={entry[0]}
-                placeholder={entry[0]}
-                style={[styles.stepperLabel, styles.stepperLabelEditable]}
-                autoFocus
-                editable
-                onChangeText={(text) => {
-                  console.log("you want to change ",entry[0] + " to ", text + " !!!!!!");
-                }}
-              />
-              : <Text style={styles.stepperLabel} onPress={setIsEditing(true)}>{entry[0]}</Text>
-            }
-              {/* TODO: need to find right way to make the update happen within the ums object... */}
+            <Text style={styles.stepperLabel}>{entry[0]}</Text>
             <Stepper id={entry[0]} onChange={onStepperChange}/>
           </View>
         )}
       </View>
+      {
+        isEditing ? 
+        <Text onPress={() => setIsEditing(false)}>You're Editing!  Press to exit editing mode.</Text>
+        : <Button 
+          title="Add/Edit Filler Words"
+          onPress={() => {
+            setIsEditing(true);
+          }}
+        />
+      }
+
       { comments !== "" ?
         <>
           <Text>Comments:</Text>
