@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, TextInput, StyleSheet, Button, Platform, TouchableOpacity } from 'react-native';
 import { Divider } from 'react-native-elements';
 
-const SavedEvent = ({navigation}) => {
+const EventDetails = ({navigation}) => {
   let valueObject = JSON.parse(navigation.getParam('value'));
   let valueObjectData = Object.entries(valueObject.ums);
   let keyStringAsArray = navigation.getParam('key').split(" -- ");
@@ -31,7 +31,7 @@ const SavedEvent = ({navigation}) => {
   )
 };
 
-SavedEvent.navigationOptions = ({navigation}) => {
+EventDetails.navigationOptions = ({navigation}) => {
   let keyStringAsArray = navigation.getParam('key').split(" -- ");
   let name = keyStringAsArray[1];
   return { title: name }
@@ -70,4 +70,4 @@ const styles = StyleSheet.create({
   }
 })
 
-export default SavedEvent;
+export default EventDetails;

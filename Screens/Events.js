@@ -41,7 +41,7 @@ const Events = ({navigation}) => {
             bottomDivider
             chevron={true}
             style={{height: 48}}
-            onPress={() => navigation.navigate('SavedEvent', {key: item.display, value: JSON.stringify(item)})}
+            onPress={() => navigation.navigate('EventDetails', {key: item.display, value: JSON.stringify(item)})}
           />
         )}
         renderRight={({item, index}) => (

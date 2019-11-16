@@ -23,7 +23,7 @@ import Login from './Screens/Login';
 import SignUp from './Screens/SignUp';
 import Events from './Screens/Events';
 import AddEvent from './Screens/AddEvent';
-import SavedEvent from './Screens/SavedEvent';
+import EventDetails from './Screens/EventDetails';
 
 
 export default class App extends React.Component {
@@ -46,8 +46,8 @@ const AppNavigator = createStackNavigator({
   AddEvent: {
     screen: AddEvent
   },
-  SavedEvent: {
-    screen: SavedEvent
+  EventDetails: {
+    screen: EventDetails
   }
 },
 {
