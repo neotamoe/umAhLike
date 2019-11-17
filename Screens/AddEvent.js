@@ -126,17 +126,17 @@ const AddEvent = ({navigation}) => {
         {/* find way to dynamically add x filler word inputs based on current # of inputs */}
         {
           Object.entries(ums).sort((a,b) => a[0].localeCompare(b[0])).map((keyvalue) => 
-          <>
+          <View style={styles.dateTimeContainer}>
             <TextInput 
-              style={ styles.input }
+              style={ [styles.input, styles.half] }
               value={keyvalue[0]}
               onChangeText={text => {
                 // configure way to set um key
                 console.log(text);
               }}
             />
-            <Text>Current Value: {keyvalue[1]}</Text>
-          </>
+            <Text style={[styles.half, styles.overlayValue]}>Current Value: {keyvalue[1]}</Text>
+          </View>
           )
         }
         <Button 
@@ -275,6 +275,12 @@ const styles = StyleSheet.create({
   },
   inputInOverlay: {
     height: '80%'
+  },
+  half: {
+    width: '50%'
+  },
+  overlayValue: {
+    marginTop: 20
   }
 })
 
