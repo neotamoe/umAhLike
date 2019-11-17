@@ -23,7 +23,8 @@ const AddEvent = ({navigation}) => {
   const [isCommentsVisible, setIsCommentsVisible] = useState(false);
   const [comments, setComments] = useState('');
   const [isEditing, setIsEditing] = useState(false);
-  const [umsKeys, setUmsKeys] = useState(['um', 'ah', 'like', 'so', 'you know'])
+  const [umsKeys, setUmsKeys] = useState(['um', 'ah', 'like', 'so', 'you know']);
+  const [availableUmsKeys, setAvailableUmsKeys] = useState(8-umsKeys.length);
 
   onStepperChange = (value, id) => {
     setUms({
@@ -139,10 +140,26 @@ const AddEvent = ({navigation}) => {
           </View>
           )
         }
+        {
+          availableUmsKeys > 0 ?
+          [...Array(availableUmsKeys)].map((e, i) =>             
+          <TextInput 
+            key={i}
+            style={ [styles.input, styles.half] }
+            placeholder="Add Filler Word"
+            onChangeText={text => {
+              // configure way to set um key
+              console.log(text);
+            }}
+          />)
+          : <></>
+        }
         <Button 
           title="OK"
           onPress={() => {
             setIsEditing(false)
+            // check for empty values in availableUmsKeys section 
+            // save all umsKeys and values 
           }}
         />
       </Overlay>
