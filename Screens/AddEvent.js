@@ -16,15 +16,13 @@ const AddEvent = ({navigation}) => {
   const [mode, setMode] = useState('date');
   const [show, setShow] = useState(false);
   const [ums, setUms] = useState({um: 0, ah: 0, like: 0, so: 0, 'you know': 0});
-  // TODO: chnage initial value
-  // Other filler words to consider: uh, er, okay, right, [already have: so, you know, um, ah, like]
   const [nameError, setNameError] = useState(false);
   const [showTimer, setShowTimer] = useState(false);
   const [isCommentsVisible, setIsCommentsVisible] = useState(false);
   const [comments, setComments] = useState('');
   const [isEditing, setIsEditing] = useState(false);
   const [umsKeys, setUmsKeys] = useState(['um', 'ah', 'like', 'so', 'you know']);
-  const [availableUmsKeys, setAvailableUmsKeys] = useState(8-umsKeys.length);
+  const [newUmsKeysObject, setNewUmsKeysObject] = useState({});
 
   onStepperChange = (value, id) => {
     setUms({
@@ -124,7 +122,6 @@ const AddEvent = ({navigation}) => {
       </View>
       <Overlay isVisible={isEditing}>
         <Text>You can include up to 8 filler words.</Text>
-        {/* find way to dynamically add x filler word inputs based on current # of inputs */}
         {
           Object.entries(ums).sort((a,b) => a[0].localeCompare(b[0])).map((keyvalue) => 
           <View style={styles.dateTimeContainer}>
@@ -141,15 +138,20 @@ const AddEvent = ({navigation}) => {
           )
         }
         {
-          availableUmsKeys > 0 ?
-          [...Array(availableUmsKeys)].map((e, i) =>             
+          (8 - umsKeys.length) > 0 ?
+          [...Array(8-umsKeys.length)].map((e, i) =>             
           <TextInput 
             key={i}
+            id={`availableUmsKeys-${i}`}
+            value={newUmsKeysObject[i]}
             style={ [styles.input, styles.half] }
             placeholder="Add Filler Word"
             onChangeText={text => {
-              // configure way to set um key
               console.log(text);
+              setNewUmsKeysObject({
+                ...newUmsKeysObject,
+                [i]: text
+              })
             }}
           />)
           : <></>
@@ -158,8 +160,17 @@ const AddEvent = ({navigation}) => {
           title="OK"
           onPress={() => {
             setIsEditing(false)
-            // check for empty values in availableUmsKeys section 
+            // check for empty values in newUmsKeys section 
             // save all umsKeys and values 
+            console.log(newUmsKeysObject)
+            let newKeys = Object.values(newUmsKeysObject);
+            for(let newKey of newKeys){
+              if(newKey !== ''){
+                setUms({...ums, [newKey]: 0});
+                umsKeys.push(newKey);
+              }
+            }
+            setNewUmsKeysObject({})
           }}
         />
       </Overlay>
