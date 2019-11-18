@@ -25,19 +25,14 @@ const AddEvent = ({navigation}) => {
   const [newUmsKeysObject, setNewUmsKeysObject] = useState({});
 
   onStepperChange = (value, id) => {
-    let temp = [];
-    // TODO: rewrite so find the index of object to replace
-    for(let umObject of ums){
-      if(umObject.word !== id){
-        temp.push(umObject);
-      }
+    let tempUms = [...ums]
+    let index = tempUms.findIndex((obj) => obj["word"]==id);
+    if(index !== -1) {
+      delete tempUms[index];
+      tempUms[index] = {"word": id, "count": value}
     }
-    let newTemp = {
-      "word": id,
-      "count": value
-    }
-    temp.push(newTemp);
-    setUms(temp)
+    setUms(tempUms)
+    console.log(tempUms)
   }
 
   saveUms = async (name, ums) => {
@@ -123,7 +118,7 @@ const AddEvent = ({navigation}) => {
           ums.sort((a,b) => a["word"].localeCompare(b["word"])).map((umObject) => 
             <View style={styles.stepperContainer} key={umObject.word}>
               <Text style={styles.stepperLabel}>{umObject.word}</Text>
-              <Stepper id={umObject.word} onChange={onStepperChange}/>
+              <Stepper id={umObject.word} onChange={onStepperChange} value={umObject.count}/>
             </View>
           )
         }
@@ -131,14 +126,19 @@ const AddEvent = ({navigation}) => {
       <Overlay isVisible={isEditing}>
         <Text>You can include up to 8 filler words.</Text>
         {
-          ums.sort((a,b) => a["word"].localeCompare(b["word"])).map((item) => 
+          ums.sort((a,b) => a["word"].localeCompare(b["word"])).map((item, index) => 
           <View style={styles.dateTimeContainer}>
             <TextInput 
               style={ [styles.input, styles.half] }
               value={item["word"]}
               onChangeText={text => {
-                // configure way to set um word
-                console.log(`word: ${item["word"]} and new text: ${text}`);
+                let tempUms = [...ums];
+                let tempCount = ums[index].count;
+                console.log(`tempCount: ${tempCount}`)
+                delete tempUms[index];
+                tempUms[index] = {"word": text, "count": tempCount};
+                console.log(tempUms[index]);
+                setUms(tempUms)
               }}
             />
             <Text style={[styles.half, styles.overlayValue]}>Current Value: {item["count"]}</Text>
@@ -169,7 +169,8 @@ const AddEvent = ({navigation}) => {
             setIsEditing(false)
             // check for empty values in newUmsKeys section 
             // save all umsKeys and values 
-            console.log(newUmsKeysObject)
+            console.log(newUmsKeysObject);
+            console.log(ums);
             let newKeys = Object.values(newUmsKeysObject);
             for(let newKey of newKeys){
               if(newKey !== ''){
@@ -177,6 +178,8 @@ const AddEvent = ({navigation}) => {
                 umsKeys.push(newKey);
               }
             }
+            console.log("ums after adding new keys: ")
+            console.log(ums);
             setNewUmsKeysObject({})
           }}
         />
