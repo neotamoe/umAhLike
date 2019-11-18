@@ -4,7 +4,7 @@ import { Divider } from 'react-native-elements';
 
 const EventDetails = ({navigation}) => {
   let valueObject = JSON.parse(navigation.getParam('value'));
-  let valueObjectData = Object.entries(valueObject.ums);
+  let umsArray = valueObject.ums;
   let keyStringAsArray = navigation.getParam('key').split(" -- ");
   let name = keyStringAsArray[1];
   let dateTime = keyStringAsArray[0];
@@ -21,12 +21,23 @@ const EventDetails = ({navigation}) => {
         <Text style={styles.data}>{dateTime}</Text>
       </View>
       <Divider style={styles.divider}/>
-      {valueObjectData.map((entry) => 
-        <View style={[styles.grouping, styles.umGrouping]} key={entry[0]}>
-          <Text style={styles.title}>{entry[0]}: </Text>
-          <Text style={styles.data}>{entry[1]}</Text>
-        </View>
-      )}
+      {
+        console.log(valueObject)
+      }
+      {
+        umsArray.map((entry) => 
+          <View style={[styles.grouping, styles.umGrouping]} key={entry.word}>
+            <Text style={styles.title}>{entry.word}: </Text>
+            <Text style={styles.data}>{entry.count}</Text>
+          </View>
+        )
+      }
+      
+      <View style={[styles.grouping, styles.umGrouping]} key={valueObject.comments}>
+        <Text style={styles.title}>Comments: </Text>
+        <Text style={styles.data}>{valueObject.comments}</Text>
+      </View>
+      
     </View>
   )
 };

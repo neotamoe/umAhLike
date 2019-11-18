@@ -4,7 +4,6 @@ import { ListItem } from 'react-native-elements';
 import AsyncStorage from '@react-native-community/async-storage';
 import { NavigationEvents } from 'react-navigation';
 import SwipeableFlatList from '../Components/SwipeableFlatList';
-// import SwipeableListItem from '../Components/SwipeableListItem';
 
 const Events = ({navigation}) => {
   const [events, setEvents] = useState([]);
@@ -23,7 +22,6 @@ const Events = ({navigation}) => {
   }
 
   return (
-    // <ScrollView>
     <View>
       <NavigationEvents 
         onWillFocus={payload => {

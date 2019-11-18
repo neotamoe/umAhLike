@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, TextInput, StyleSheet, Button, Platform, TouchableOpacity } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 
@@ -15,39 +15,45 @@ const AddEvent = ({navigation}) => {
   const [formattedTime, setFormattedTime] = useState(moment(date).format('h:mm A'));
   const [mode, setMode] = useState('date');
   const [show, setShow] = useState(false);
-  const [ums, setUms] = useState({um: 0, ah: 0, like: 0, so: 0, 'you know': 0});
+  const [ums, setUms] = useState([{"word": "um", "count": 0}, {"word": "ah", "count": 0}, {"word": "like", "count": 0}, {"word": "so", "count": 0}, {"word": "you know", "count": 0}]); // [{word: 'um', count: 0}]
   const [nameError, setNameError] = useState(false);
   const [showTimer, setShowTimer] = useState(false);
   const [isCommentsVisible, setIsCommentsVisible] = useState(false);
   const [comments, setComments] = useState('');
   const [isEditing, setIsEditing] = useState(false);
-  const [umsKeys, setUmsKeys] = useState(['um', 'ah', 'like', 'so', 'you know']);
+  const [umsKeys, setUmsKeys] = useState(['um', 'ah', 'like', 'so', 'you know'].sort((a,b) => a[0].localeCompare(b[0])));
   const [newUmsKeysObject, setNewUmsKeysObject] = useState({});
 
   onStepperChange = (value, id) => {
-    setUms({
-      ...ums, 
-      [id]: value})
+    let temp = [];
+    // TODO: rewrite so find the index of object to replace
+    for(let umObject of ums){
+      if(umObject.word !== id){
+        temp.push(umObject);
+      }
+    }
+    let newTemp = {
+      "word": id,
+      "count": value
+    }
+    temp.push(newTemp);
+    setUms(temp)
   }
 
   saveUms = async (name, ums) => {
     const itemToSave = {
-        "ums": addCommentsToUms(ums, comments),
+        "ums": ums,
         "date": formattedDate,
         "time": formattedTime,
         "name": name,
-        "display":`${formattedDate} ${formattedTime} -- ${name}`
+        "display":`${formattedDate} ${formattedTime} -- ${name}`,
+        "comments": comments
     }
     try {
       await AsyncStorage.setItem(`${formattedDate} ${formattedTime} -- ${name}`, JSON.stringify(itemToSave))
     } catch (e) {
       console.log("Error: ", e);
     }
-  }
-
-  addCommentsToUms = (ums, comments) => {
-    const newUmsObject = {...ums, "comments": comments}
-    return newUmsObject;
   }
 
   return (
@@ -113,27 +119,29 @@ const AddEvent = ({navigation}) => {
             /> 
           : null }
       <View style={styles.allSteppers}>
-        {Object.entries(ums).sort((a,b) => a[0].localeCompare(b[0])).map((entry) => 
-          <View style={styles.stepperContainer} key={entry[0]}>
-            <Text style={styles.stepperLabel}>{entry[0]}</Text>
-            <Stepper id={entry[0]} onChange={onStepperChange}/>
-          </View>
-        )}
+        {
+          ums.sort((a,b) => a["word"].localeCompare(b["word"])).map((umObject) => 
+            <View style={styles.stepperContainer} key={umObject.word}>
+              <Text style={styles.stepperLabel}>{umObject.word}</Text>
+              <Stepper id={umObject.word} onChange={onStepperChange}/>
+            </View>
+          )
+        }
       </View>
       <Overlay isVisible={isEditing}>
         <Text>You can include up to 8 filler words.</Text>
         {
-          Object.entries(ums).sort((a,b) => a[0].localeCompare(b[0])).map((keyvalue) => 
+          ums.sort((a,b) => a["word"].localeCompare(b["word"])).map((item) => 
           <View style={styles.dateTimeContainer}>
             <TextInput 
               style={ [styles.input, styles.half] }
-              value={keyvalue[0]}
+              value={item["word"]}
               onChangeText={text => {
-                // configure way to set um key
-                console.log(text);
+                // configure way to set um word
+                console.log(`word: ${item["word"]} and new text: ${text}`);
               }}
             />
-            <Text style={[styles.half, styles.overlayValue]}>Current Value: {keyvalue[1]}</Text>
+            <Text style={[styles.half, styles.overlayValue]}>Current Value: {item["count"]}</Text>
           </View>
           )
         }
@@ -142,7 +150,6 @@ const AddEvent = ({navigation}) => {
           [...Array(8-umsKeys.length)].map((e, i) =>             
           <TextInput 
             key={i}
-            id={`availableUmsKeys-${i}`}
             value={newUmsKeysObject[i]}
             style={ [styles.input, styles.half] }
             placeholder="Add Filler Word"
@@ -166,7 +173,7 @@ const AddEvent = ({navigation}) => {
             let newKeys = Object.values(newUmsKeysObject);
             for(let newKey of newKeys){
               if(newKey !== ''){
-                setUms({...ums, [newKey]: 0});
+                setUms([...ums, {"word": newKey, "count": 0}]);
                 umsKeys.push(newKey);
               }
             }
