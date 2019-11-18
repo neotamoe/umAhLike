@@ -2,20 +2,13 @@ import React, { useState } from 'react';
 import { Text, TextInput, TouchableOpacity, View, StyleSheet } from 'react-native';
 
 const Stepper = (props) => {
-  // const [value, setValue] = useState(props.value);
-  const updateValue = e => {
-    setValue({
-      ...value,
-      'fakeKey': e.nativeEvent.text
-    });
-  };
+
   return (
       <View style={styles.stepper}>
         <TouchableOpacity 
           style={styles.button}
           onPress={() => {
-            if(value==0){ return }
-            // setValue(parseInt(value) - 1); 
+            if(props.value==0){ return }
             props.onChange(parseInt(props.value)-1, props.id); 
           }}>
           <Text style={styles.buttonText}>-</Text>
@@ -25,14 +18,12 @@ const Stepper = (props) => {
             id={props.id} 
             style={styles.value}
             onChange={(e) => { 
-              // setValue(e.nativeEvent.text); 
               props.onChange(e.nativeEvent.text,props.id)}}
           >
             {props.value} 
           </TextInput>
         </View>
         <TouchableOpacity style={styles.button} onPress={() => {
-          // setValue(parseInt(value) + 1); 
           props.onChange(parseInt(props.value)+1, props.id); }}>
           <Text style={styles.buttonText}>+</Text>
         </TouchableOpacity>
