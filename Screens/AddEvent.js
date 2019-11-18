@@ -28,7 +28,6 @@ const AddEvent = ({navigation}) => {
     let tempUms = [...ums]
     let index = tempUms.findIndex((obj) => obj["word"]==id);
     if(index !== -1) {
-      delete tempUms[index];
       tempUms[index] = {"word": id, "count": value}
     }
     setUms(tempUms)
@@ -99,7 +98,6 @@ const AddEvent = ({navigation}) => {
           is24Hour={true}
           display="default"www
           onChange={(e, date) => {
-            console.log(date);
             Platform.OS === 'ios' ? setShow(true) : setShow(false);
             setDate(date);
             setFormattedDate(moment(date).format('MMM-DD-YYYY'));
@@ -115,7 +113,14 @@ const AddEvent = ({navigation}) => {
           : null }
       <View style={styles.allSteppers}>
         {
-          ums.sort((a,b) => a["word"].localeCompare(b["word"])).map((umObject) => 
+          isEditing ?
+          ums.map((umObject) => 
+          <View style={styles.stepperContainer} key={umObject.word}>
+            <Text style={styles.stepperLabel}>{umObject.word}</Text>
+            <Stepper id={umObject.word} onChange={onStepperChange} value={umObject.count}/>
+          </View>
+          )
+          : ums.sort((a,b) => a["word"].localeCompare(b["word"])).map((umObject) => 
             <View style={styles.stepperContainer} key={umObject.word}>
               <Text style={styles.stepperLabel}>{umObject.word}</Text>
               <Stepper id={umObject.word} onChange={onStepperChange} value={umObject.count}/>
@@ -125,20 +130,19 @@ const AddEvent = ({navigation}) => {
       </View>
       <Overlay isVisible={isEditing}>
         <Text>You can include up to 8 filler words.</Text>
+        <Text>You cannot edit a filler word with a value > 0.</Text>
         {
-          ums.sort((a,b) => a["word"].localeCompare(b["word"])).map((item, index) => 
+          ums.map((item, index) => 
           <View style={styles.dateTimeContainer}>
             <TextInput 
+              editable={ums[index].count === 0}
               style={ [styles.input, styles.half] }
               value={item["word"]}
               onChangeText={text => {
                 let tempUms = [...ums];
                 let tempCount = ums[index].count;
-                console.log(`tempCount: ${tempCount}`)
-                delete tempUms[index];
                 tempUms[index] = {"word": text, "count": tempCount};
-                console.log(tempUms[index]);
-                setUms(tempUms)
+                setUms(tempUms)  
               }}
             />
             <Text style={[styles.half, styles.overlayValue]}>Current Value: {item["count"]}</Text>
@@ -167,7 +171,7 @@ const AddEvent = ({navigation}) => {
           title="OK"
           onPress={() => {
             setIsEditing(false)
-            // TODO: don't allow empty input if it has a count > 0 
+            // TODO: don't allow empty inputs
             console.log(newUmsKeysObject);
             console.log(ums);
             let tempUmsKeys = [...umsKeys]
@@ -212,7 +216,6 @@ const AddEvent = ({navigation}) => {
             value={comments}
             multiline={true}
             onChangeText={text => {
-              console.log(text)
               setComments(text)
             }}
           />
@@ -241,10 +244,6 @@ const AddEvent = ({navigation}) => {
           }
           saveUms(name, ums);
           navigation.navigate("Events");
-          console.log("save button pressed");
-          console.log('date:', date);
-          console.log('name:', name);
-          console.log('ums object:', ums);
         }}
       />
     </View>
