@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TextInput, StyleSheet, Button, Platform, TouchableOpacity } from 'react-native';
+import { View, Text, TextInput, StyleSheet, Button, Platform, TouchableOpacity, Switch } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 
 import Stepper from '../Components/Stepper';
@@ -167,17 +167,18 @@ const AddEvent = ({navigation}) => {
           title="OK"
           onPress={() => {
             setIsEditing(false)
-            // check for empty values in newUmsKeys section 
-            // save all umsKeys and values 
+            // TODO: don't allow empty input if it has a count > 0 
             console.log(newUmsKeysObject);
             console.log(ums);
+            let tempUmsKeys = [...umsKeys]
             let newKeys = Object.values(newUmsKeysObject);
             for(let newKey of newKeys){
               if(newKey !== ''){
                 setUms([...ums, {"word": newKey, "count": 0}]);
-                umsKeys.push(newKey);
+                tempUmsKeys.push(newKey);
               }
             }
+            setUmsKeys(tempUmsKeys);
             console.log("ums after adding new keys: ")
             console.log(ums);
             setNewUmsKeysObject({})
