@@ -16,7 +16,7 @@ import {
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
 
-import { createAppContainer } from "react-navigation";
+import { createAppContainer, createSwitchNavigator } from "react-navigation";
 import { createStackNavigator } from "react-navigation-stack";
 
 import Login from './Screens/Login';
@@ -24,7 +24,7 @@ import SignUp from './Screens/SignUp';
 import Events from './Screens/Events';
 import AddEvent from './Screens/AddEvent';
 import EventDetails from './Screens/EventDetails';
-
+import AuthLoading from './Screens/AuthLoading';
 
 export default class App extends React.Component {
   render() {
@@ -32,14 +32,10 @@ export default class App extends React.Component {
   }
 }
 
+const AuthStack = createStackNavigator({ Login: Login, SignUp: SignUp });
+
 // TODO: redo using auth flow: example: https://reactnavigation.org/docs/en/auth-flow.html
-const AppNavigator = createStackNavigator({
-  Login: {
-    screen: Login
-  },
-  SignUp: {
-    screen: SignUp
-  },
+const AppStack = createStackNavigator({
   Events: {
     screen: Events
   },
@@ -51,10 +47,21 @@ const AppNavigator = createStackNavigator({
   }
 },
 {
-  initialRouteName: "Login",
+  initialRouteName: "Events",
 });
 
-const AppContainer = createAppContainer(AppNavigator);
+const AppContainer = createAppContainer(
+  createSwitchNavigator(
+    {
+      AuthLoading: AuthLoading,
+      App: AppStack,
+      Auth: AuthStack
+    },
+    {
+      initialRouteName: 'AuthLoading'
+    }
+  )
+);
 
 const styles = StyleSheet.create({
   container: {

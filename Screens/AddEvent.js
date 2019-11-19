@@ -167,6 +167,7 @@ const AddEvent = ({navigation}) => {
               editable={ums[index].count === 0}
               style={ [styles.input, styles.half] }
               value={item["word"]}
+              autoCapitalize='none'
               onChangeText={text => {
                 let tempUms = [...ums];
                 let tempCount = ums[index].count;
@@ -186,6 +187,7 @@ const AddEvent = ({navigation}) => {
             value={newUmsKeysObject[i]}
             style={ [styles.input, styles.half] }
             placeholder="Add Filler Word"
+            autoCapitalize='none'
             onChangeText={text => {
               console.log(text);
               setNewUmsKeysObject({
