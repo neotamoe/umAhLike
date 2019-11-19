@@ -20,6 +20,10 @@ const EventDetails = ({navigation}) => {
         <Text style={styles.title}>Date/Time: </Text>
         <Text style={styles.data}>{dateTime}</Text>
       </View>
+      <View style={styles.grouping}>
+        <Text style={styles.title}>Topic: </Text>
+        <Text style={styles.data}>{valueObject.topic}</Text>
+      </View>
       <Divider style={styles.divider}/>
       {
         console.log(valueObject)

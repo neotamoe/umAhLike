@@ -22,6 +22,7 @@ const AddEvent = ({navigation}) => {
   const [comments, setComments] = useState('');
   const [isEditing, setIsEditing] = useState(false);
   const [newUmsKeysObject, setNewUmsKeysObject] = useState({});
+  const [topic, setTopic] = useState("");
 
   onStepperChange = (value, id) => {
     let tempUms = [...ums]
@@ -40,7 +41,8 @@ const AddEvent = ({navigation}) => {
         "time": formattedTime,
         "name": name,
         "display":`${formattedDate} ${formattedTime} -- ${name}`,
-        "comments": comments
+        "comments": comments,
+        "topic": topic
     }
     try {
       await AsyncStorage.setItem(`${formattedDate} ${formattedTime} -- ${name}`, JSON.stringify(itemToSave))
@@ -79,6 +81,15 @@ const AddEvent = ({navigation}) => {
           setName(text)
           if(!text || text.trim()===""){ setNameError(true) }
           else if (nameError){ setNameError(false) }
+        }}
+      />
+      <Text>Topic:</Text>
+      <TextInput 
+        style={ styles.input }
+        placeholder='Enter topic (optional)'
+        value={topic}
+        onChangeText={text => {
+          setTopic(text)
         }}
       />
       {/* consider looking at react native Switch instead of external dependency */}
