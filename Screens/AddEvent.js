@@ -21,7 +21,6 @@ const AddEvent = ({navigation}) => {
   const [isCommentsVisible, setIsCommentsVisible] = useState(false);
   const [comments, setComments] = useState('');
   const [isEditing, setIsEditing] = useState(false);
-  const [umsKeys, setUmsKeys] = useState(['um', 'ah', 'like', 'so', 'you know'].sort((a,b) => a[0].localeCompare(b[0])));
   const [newUmsKeysObject, setNewUmsKeysObject] = useState({});
 
   onStepperChange = (value, id) => {
@@ -48,6 +47,25 @@ const AddEvent = ({navigation}) => {
     } catch (e) {
       console.log("Error: ", e);
     }
+  }
+
+  umsHasAllValidStringWords = () => {
+    for(let obj of ums){
+      if(obj.word===""){
+        return false;
+      }
+    }
+    return true;
+  }
+
+  createNewUms = () => {
+    let newUms = [];
+    ums.forEach((obj) => { 
+      if(obj.word!==""){
+        newUms.push(obj);
+      }
+    });
+    setUms(newUms);
   }
 
   return (
@@ -150,8 +168,8 @@ const AddEvent = ({navigation}) => {
           )
         }
         {
-          (8 - umsKeys.length) > 0 ?
-          [...Array(8-umsKeys.length)].map((e, i) =>             
+          (8 - ums.length) > 0 ?
+          [...Array(8-ums.length)].map((e, i) =>             
           <TextInput 
             key={i}
             value={newUmsKeysObject[i]}
@@ -171,21 +189,20 @@ const AddEvent = ({navigation}) => {
           title="OK"
           onPress={() => {
             setIsEditing(false)
-            // TODO: don't allow empty inputs
             console.log(newUmsKeysObject);
             console.log(ums);
-            let tempUmsKeys = [...umsKeys]
             let newKeys = Object.values(newUmsKeysObject);
             for(let newKey of newKeys){
               if(newKey !== ''){
                 setUms([...ums, {"word": newKey, "count": 0}]);
-                tempUmsKeys.push(newKey);
               }
             }
-            setUmsKeys(tempUmsKeys);
             console.log("ums after adding new keys: ")
             console.log(ums);
-            setNewUmsKeysObject({})
+            setNewUmsKeysObject({});
+            if(!umsHasAllValidStringWords()){
+              createNewUms();
+            }
           }}
         />
       </Overlay>
