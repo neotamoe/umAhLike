@@ -24,13 +24,25 @@ class AuthLoading extends React.Component {
   // Render any loading content that you like here
   render() {
     return (
-      <View>
-        <ActivityIndicator />
+      <View style={[styles.container, styles.horizontal]}>
+        <ActivityIndicator size="large" color="#0000ff"/>
         <StatusBar barStyle="default" />
       </View>
     );
   }
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center'
+  },
+  horizontal: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    padding: 10
+  }
+})
 
 // https://reactnavigation.org/docs/en/auth-flow.html
 export default AuthLoading;

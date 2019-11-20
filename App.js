@@ -34,7 +34,7 @@ export default class App extends React.Component {
 
 const AuthStack = createStackNavigator({ Login: Login, SignUp: SignUp });
 
-// TODO: redo using auth flow: example: https://reactnavigation.org/docs/en/auth-flow.html
+// using auth flow: example: https://reactnavigation.org/docs/en/auth-flow.html
 const AppStack = createStackNavigator({
   Events: {
     screen: Events
