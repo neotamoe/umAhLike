@@ -12,6 +12,8 @@ const Login = ({navigation}) => {
   const [password, setPassword] = useState('');
   const [user, setUser] = useState(null);
   const [authCode, setAuthCode] = useState('');
+  const [showError, setShowError] = useState(false);
+  const [error, setError] = useState('');
 
   signInAsync = async () => {
     // implement the aws stuff, then dynamically do:
@@ -22,6 +24,12 @@ const Login = ({navigation}) => {
 
   signIn = () => { 
     console.log(`in signIn method in login.js`)
+    if(!username || !password){
+      console.log("user must enter username and password--one of these is empty");
+      setError("You must enter both username AND password to sign in.");
+      setShowError(true);
+      return;
+    }
     Auth.signIn(username, password)
       .then(user => {
       // save user in state somewhere (or maybe in asyncstorage?)
@@ -29,9 +37,13 @@ const Login = ({navigation}) => {
         console.log(user)
         // await AsyncStorage.setItem('userToken', 'abc');
         setUser(user);
+        navigation.navigate('AuthCode', {user: JSON.stringify(user)})
       })
       .catch(err => {
         console.log('error signing in: ', err)
+        // TODO: make this a more dynamic error
+        setError('Oops.  Something went wrong.  Please try to sign in again.');
+        setShowError(true);
       })
   }
   confirmSignIn = () => { 
@@ -73,7 +85,12 @@ const Login = ({navigation}) => {
           signIn();
         }}
       />
-      <Divider style={styles.divider}/>
+      {
+        showError ? 
+        <Text style={styles.inputError}>{error}</Text>        
+        : <></>
+      }
+      {/* <Divider style={styles.divider}/>
       <Input
         value={authCode}
         placeholder='Enter your Authentication Code'
@@ -89,7 +106,7 @@ const Login = ({navigation}) => {
           // navigation.navigate('Events');
           confirmSignIn();
         }}
-      />
+      /> */}
       <Divider style={styles.divider}/>
       <Button 
         title="New User?  Click to Sign Up." 

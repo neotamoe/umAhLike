@@ -25,6 +25,7 @@ import Events from './Screens/Events';
 import AddEvent from './Screens/AddEvent';
 import EventDetails from './Screens/EventDetails';
 import AuthLoading from './Screens/AuthLoading';
+import AuthCode from './Screens/AuthCode';
 
 export default class App extends React.Component {
   render() {
@@ -32,7 +33,7 @@ export default class App extends React.Component {
   }
 }
 
-const AuthStack = createStackNavigator({ Login: Login, SignUp: SignUp });
+const AuthStack = createStackNavigator({ Login: Login, SignUp: SignUp, AuthCode: AuthCode });
 
 // using auth flow: example: https://reactnavigation.org/docs/en/auth-flow.html
 const AppStack = createStackNavigator({
