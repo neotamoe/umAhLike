@@ -60,3 +60,4 @@ buck-out/
 
 # My Own Additions
 exampleUser.json
+.vscode/
