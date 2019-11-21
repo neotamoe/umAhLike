@@ -5,7 +5,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 
 import Amplify, { Auth } from 'aws-amplify';
 import awsconfig from '../src/aws-exports';
-Amplify.configure(awsconfig);
+// Amplify.configure(awsconfig);
 
 const AuthCode = ({navigation}) => {
   const [username, setUsername] = useState('');
@@ -13,17 +13,21 @@ const AuthCode = ({navigation}) => {
   const [user, setUser] = useState(null);
   const [authCode, setAuthCode] = useState('');
 
-  // let user = JSON.parse(navigation.getParam('user'));
+  let userParam = JSON.parse(navigation.getParam('user'));
+  console.log('userParam', userParam)
 
   confirmSignIn = () => { 
-    Auth.confirmSignIn(user, authCode)
+    console.log('in confirm sign in')
+    console.log(userParam)
+    console.log('authCode:', authCode)
+    Auth.confirmSignIn(userParam, authCode, "SMS_MFA")
       .then(user => {
         console.log('user: ', user);
         navigation.navigate('Events');
       }).catch(err => {
         console.log('error confirming sign in: ', err)
-      });
-  }
+      })
+  };
 
   confirmUser = (username, authCode) => { 
     console.log(`in confirm user: with username: ${username} and authCode: ${authCode}`)
@@ -61,12 +65,6 @@ const AuthCode = ({navigation}) => {
   )  
 
 }
-
-// AuthCode.navigationOptions = ({navigation}) => {
-//   let keyStringAsArray = navigation.getParam('key').split(" -- ");
-//   let name = keyStringAsArray[1];
-//   return { title: name }
-// };
 
 const styles = StyleSheet.create({
   header: {

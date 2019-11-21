@@ -6,6 +6,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 import Amplify, { Auth } from 'aws-amplify';
 import awsconfig from '../src/aws-exports';
 Amplify.configure(awsconfig);
+import { withAuthenticator } from "aws-amplify-react-native";
 
 const Login = ({navigation}) => {
   const [username, setUsername] = useState('');
@@ -37,7 +38,9 @@ const Login = ({navigation}) => {
         console.log(user)
         // await AsyncStorage.setItem('userToken', 'abc');
         setUser(user);
-        navigation.navigate('AuthCode', {user: JSON.stringify(user)})
+        const stringifiedUser = JSON.stringify(user);
+        console.log('stringifiedUser:', stringifiedUser)
+        navigation.navigate('AuthCode', {user: stringifiedUser})
       })
       .catch(err => {
         console.log('error signing in: ', err)
@@ -90,7 +93,7 @@ const Login = ({navigation}) => {
         <Text style={styles.inputError}>{error}</Text>        
         : <></>
       }
-      {/* <Divider style={styles.divider}/>
+      <Divider style={styles.divider}/>
       <Input
         value={authCode}
         placeholder='Enter your Authentication Code'
@@ -106,7 +109,7 @@ const Login = ({navigation}) => {
           // navigation.navigate('Events');
           confirmSignIn();
         }}
-      /> */}
+      />
       <Divider style={styles.divider}/>
       <Button 
         title="New User?  Click to Sign Up." 
@@ -138,4 +141,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Login;
+export default withAuthenticator(Login, true);

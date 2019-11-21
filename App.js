@@ -27,13 +27,22 @@ import EventDetails from './Screens/EventDetails';
 import AuthLoading from './Screens/AuthLoading';
 import AuthCode from './Screens/AuthCode';
 
-export default class App extends React.Component {
-  render() {
-    return <AppContainer />;
-  }
+import Amplify, { Auth } from 'aws-amplify';
+import awsconfig from './src/aws-exports';
+Amplify.configure(awsconfig);
+import { withAuthenticator, AmplifyTheme } from "aws-amplify-react-native";
+
+const MyButton = Object.assign({}, AmplifyTheme.button, { backgroundColor: 'purple' });
+const MyA = Object.assign({}, AmplifyTheme.a, { color: 'purple' });
+const MyTheme = Object.assign({}, AmplifyTheme, { button: MyButton });
+
+const App = () =>  {
+  return <AppContainer />;
 }
 
-const AuthStack = createStackNavigator({ Login: Login, SignUp: SignUp, AuthCode: AuthCode });
+export default withAuthenticator(App, false, [], null, MyTheme);
+
+// const AuthStack = createStackNavigator({ Login: Login, SignUp: SignUp, AuthCode: AuthCode });
 
 // using auth flow: example: https://reactnavigation.org/docs/en/auth-flow.html
 const AppStack = createStackNavigator({
@@ -54,12 +63,13 @@ const AppStack = createStackNavigator({
 const AppContainer = createAppContainer(
   createSwitchNavigator(
     {
-      AuthLoading: AuthLoading,
+      // AuthLoading: AuthLoading,
       App: AppStack,
-      Auth: AuthStack
+      // Auth: AuthStack
     },
     {
-      initialRouteName: 'AuthLoading'
+      // initialRouteName: 'AuthLoading'
+      initialRouteName: 'App'
     }
   )
 );
