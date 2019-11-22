@@ -32,9 +32,14 @@ import awsconfig from './src/aws-exports';
 Amplify.configure(awsconfig);
 import { withAuthenticator, AmplifyTheme } from "aws-amplify-react-native";
 
-const MyButton = Object.assign({}, AmplifyTheme.button, { backgroundColor: 'purple' });
-const MyA = Object.assign({}, AmplifyTheme.a, { color: 'purple' });
-const MyTheme = Object.assign({}, AmplifyTheme, { button: MyButton });
+const MyButton = Object.assign({}, AmplifyTheme.button, { backgroundColor: '#0000ff' });
+const MyButtonDisabled = Object.assign({}, AmplifyTheme.buttonDisabled, { backgroundColor: '#0000ff80' });
+const MySectionFooterLink = Object.assign({}, AmplifyTheme.sectionFooterLink, { color: 'blue' });
+const MyTheme = Object.assign({}, AmplifyTheme, { 
+  sectionFooterLink: MySectionFooterLink,
+  button: MyButton, 
+  buttonDisabled: MyButtonDisabled
+});
 
 const App = () =>  {
   return <AppContainer />;
