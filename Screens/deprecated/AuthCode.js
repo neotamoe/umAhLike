@@ -4,7 +4,7 @@ import { Input, Divider } from 'react-native-elements';
 import AsyncStorage from '@react-native-community/async-storage';
 
 import Amplify, { Auth } from 'aws-amplify';
-import awsconfig from '../src/aws-exports';
+import awsconfig from '../../src/aws-exports';
 // Amplify.configure(awsconfig);
 
 const AuthCode = ({navigation}) => {

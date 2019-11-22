@@ -3,7 +3,7 @@ import { StatusBar, SafeAreaView, View, Text, Button, StyleSheet } from 'react-n
 import { Input, Divider } from 'react-native-elements';
 
 import Amplify, { Auth } from 'aws-amplify';
-import awsconfig from '../src/aws-exports';
+import awsconfig from '../../src/aws-exports';
 Amplify.configure(awsconfig);
 
 const SignUp = ({navigation}) => {
