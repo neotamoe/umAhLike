@@ -27,10 +27,19 @@ import EventDetails from './Screens/EventDetails';
 import AuthLoading from './Screens/AuthLoading';
 import AuthCode from './Screens/AuthCode';
 
-import Amplify, { Auth } from 'aws-amplify';
+import Amplify, { Auth, I18n } from 'aws-amplify';
 import awsconfig from './src/aws-exports';
 Amplify.configure(awsconfig);
 import { withAuthenticator, AmplifyTheme } from "aws-amplify-react-native";
+
+const footerHelpText = {
+  en: {
+    'Please Sign In / Sign Up': 'UmAhLike: Please Sign In or Sign Up'
+  }
+};
+
+I18n.setLanguage('en');
+I18n.putVocabularies(footerHelpText);
 
 const MyButton = Object.assign({}, AmplifyTheme.button, { backgroundColor: '#0000ff' });
 const MyButtonDisabled = Object.assign({}, AmplifyTheme.buttonDisabled, { backgroundColor: '#0000ff80' });
