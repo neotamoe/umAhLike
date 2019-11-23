@@ -14,7 +14,9 @@ import { withAuthenticator, AmplifyTheme } from "aws-amplify-react-native";
 
 const footerHelpText = {
   en: {
-    'Please Sign In / Sign Up': 'UmAhLike: Please Sign In or Sign Up'
+    'Please Sign In / Sign Up': 'UmAhLike: Please Sign In or Sign Up',
+    'Create a new account': 'Create an UmAhLike account',
+    'Sign in to your account': 'Sign in to your UmAhLike account'
   }
 };
 
