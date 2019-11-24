@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TextInput, StyleSheet, Button, Platform, TouchableOpacity, Switch } from 'react-native';
+import { View, Text, TextInput, StyleSheet, Platform, ScrollView, TouchableOpacity, Switch } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 
 import Stepper from '../Components/Stepper';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import moment from 'moment';
 // import ToggleSwitch from 'toggle-switch-react-native';
-import { Overlay } from 'react-native-elements';
+import { Overlay, Button } from 'react-native-elements';
 
 const AddEvent = ({navigation}) => {
   const [name, setName] = useState('');
@@ -71,8 +71,9 @@ const AddEvent = ({navigation}) => {
   }
 
   return (
+    <ScrollView>
     <View style={styles.container}>
-      <Text>Speaker Name:</Text>
+      <Text>Speaker Name: *</Text>
       <TextInput 
         style={ nameError ? styles.inputError : styles.input }
         placeholder='Enter speaker name'
@@ -125,7 +126,7 @@ const AddEvent = ({navigation}) => {
         { show && <DateTimePicker value={date}
           mode={mode}
           is24Hour={true}
-          display="default"www
+          display="default"
           onChange={(e, date) => {
             Platform.OS === 'ios' ? setShow(true) : setShow(false);
             setDate(date);
@@ -158,11 +159,12 @@ const AddEvent = ({navigation}) => {
         }
       </View>
       <Overlay isVisible={isEditing}>
+        <View>
         <Text>You can include up to 8 filler words.</Text>
         <Text>You cannot edit a filler word with a value > 0.</Text>
         {
           ums.map((item, index) => 
-          <View style={styles.dateTimeContainer}>
+          <View style={styles.dateTimeContainer} key={index}>
             <TextInput 
               editable={ums[index].count === 0}
               style={ [styles.input, styles.half] }
@@ -218,8 +220,10 @@ const AddEvent = ({navigation}) => {
             }
           }}
         />
+        </View>
       </Overlay>
       <Button 
+        buttonStyle={styles.button}
         title="Add/Edit Filler Words"
         onPress={() => {
           setIsEditing(true);
@@ -258,6 +262,7 @@ const AddEvent = ({navigation}) => {
           </View>
         </Overlay>
         : <Button 
+            buttonStyle={styles.button}
             title={comments==="" ? "Add Comments" : "Edit Comments"}
             onPress={() => {
               setIsCommentsVisible(true);
@@ -266,6 +271,7 @@ const AddEvent = ({navigation}) => {
       }
 
       <Button 
+        buttonStyle={styles.button}
         title="Save Event" 
         onPress={() => {
           if(!name || name.trim()==="") { 
@@ -277,6 +283,7 @@ const AddEvent = ({navigation}) => {
         }}
       />
     </View>
+    </ScrollView>
   )
 };
 
@@ -349,6 +356,10 @@ const styles = StyleSheet.create({
   },
   overlayValue: {
     marginTop: 20
+  },
+  button: {
+    marginBottom: 10,
+    marginRight: 10
   }
 })
 
