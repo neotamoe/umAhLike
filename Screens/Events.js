@@ -32,6 +32,7 @@ const Events = ({navigation}) => {
       events.length > 0 ?
       <SwipeableFlatList 
         data={events}
+        keyExtractor={(item, index) => index.toString()}
         renderItem={({item, index}) => (
           <ListItem 
             key={index} 
