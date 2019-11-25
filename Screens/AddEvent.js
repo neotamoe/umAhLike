@@ -222,6 +222,7 @@ const AddEvent = ({navigation}) => {
         />
         </View>
       </Overlay>
+      <View style={styles.bottomSectionContainer}>
       <Button 
         buttonStyle={styles.button}
         title="Add/Edit Filler Words"
@@ -232,7 +233,7 @@ const AddEvent = ({navigation}) => {
       { comments !== "" ?
         <>
           <Text>Comments:</Text>
-          <Text>{comments}</Text>
+          <Text style={styles.comments}>{comments}</Text>
         </>
         : <></>
       }
@@ -243,10 +244,10 @@ const AddEvent = ({navigation}) => {
           onBackdropPress={() => {setComments(''); setIsCommentsVisible(false)}}
         >
           <View>
-          <Text>Additional comments</Text>
+          <Text>Comments</Text>
           <TextInput 
             style={ [styles.input, styles.inputInOverlay ] }
-            placeholder='Enter comments'
+            placeholder='Enter comments (optional)'
             value={comments}
             multiline={true}
             onChangeText={text => {
@@ -282,6 +283,7 @@ const AddEvent = ({navigation}) => {
           navigation.navigate("Events");
         }}
       />
+      </View>
     </View>
     </ScrollView>
   )
@@ -349,7 +351,9 @@ const styles = StyleSheet.create({
     flexDirection: 'row'
   },
   inputInOverlay: {
-    height: '80%'
+    height: '85%',
+    fontSize: 24,
+    marginRight: 0
   },
   half: {
     width: '50%'
@@ -363,6 +367,13 @@ const styles = StyleSheet.create({
   },
   saveButton: {
     backgroundColor: 'green'
+  },
+  bottomSectionContainer: {
+    display: 'flex',
+    flexDirection: 'column',
+  },
+  comments: {
+    marginBottom: 10
   }
 })
 
