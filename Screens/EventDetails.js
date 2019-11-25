@@ -1,14 +1,24 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, StyleSheet, Button, Platform, TouchableOpacity } from 'react-native';
-import { Divider } from 'react-native-elements';
+import { View, Text, TextInput, StyleSheet, Platform, TouchableOpacity } from 'react-native';
+import { Divider, Button } from 'react-native-elements';
+import AsyncStorage from '@react-native-community/async-storage';
 
 const EventDetails = ({navigation}) => {
   let valueObject = JSON.parse(navigation.getParam('value'));
   let umsArray = valueObject.ums;
-  let keyStringAsArray = navigation.getParam('key').split(" -- ");
+  let keyString = navigation.getParam('key');
+  let keyStringAsArray = keyString.split(" -- ");
   let name = keyStringAsArray[1];
   let dateTime = keyStringAsArray[0];
   
+  removeEvent = async () => {
+    try {
+      AsyncStorage.removeItem(keyString);
+    } catch(e) {
+      console.error('oops, something happened in removing item from AsyncStorage:', e)
+    }
+    navigation.navigate('Events')
+  }
 
   return (
     <View style={styles.container}>
@@ -41,7 +51,13 @@ const EventDetails = ({navigation}) => {
         <Text style={styles.title}>Comments: </Text>
         <Text style={styles.data}>{valueObject.comments}</Text>
       </View>
-      
+      <View style={styles.deleteButtonContainer}>
+        <Button 
+          title="Delete" 
+          buttonStyle={styles.deleteButton} 
+          onPress={ removeEvent }
+        />
+      </View>
     </View>
   )
 };
@@ -82,6 +98,14 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: 'lightgray',
     marginBottom: 10
+  },
+  deleteButton: {
+    backgroundColor: 'red'
+  },
+  deleteButtonContainer: {
+    flex: 1,
+    justifyContent: 'flex-end',
+    marginBottom: 30
   }
 })
 
