@@ -21,11 +21,21 @@ const Events = ({navigation}) => {
     });  
   }
 
+  removeEvent = async (key) => {
+    try {
+      await AsyncStorage.removeItem(key)
+    } catch(e) {
+      console.log(`error removing ${key} from AsyncStorage: ${e}`)
+    }
+    console.log('done with remove event function')
+    getAllData();
+  }
+
   return (
     <View>
       <NavigationEvents 
         onWillFocus={payload => {
-          getAllData()
+          getAllData();
         }}
       />
       {
@@ -46,7 +56,10 @@ const Events = ({navigation}) => {
         renderRight={({item, index}) => (
           <Text 
             style={{width: 100, height: 48, backgroundColor: 'red', fontSize: 16, lineHeight: 48, textAlign: 'center'}}
-            onPress={() => console.log('you pressed delete for', item.display)}
+            onPress={() => {
+              console.log('you pressed delete for', item.display)
+              removeEvent(item.display)
+            }}
           >
             Delete
           </Text>

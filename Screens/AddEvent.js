@@ -45,7 +45,7 @@ const AddEvent = ({navigation}) => {
         "topic": topic
     }
     try {
-      await AsyncStorage.setItem(`${formattedDate} ${formattedTime} -- ${name}`, JSON.stringify(itemToSave))
+      await AsyncStorage.setItem(itemToSave.display, JSON.stringify(itemToSave))
     } catch (e) {
       console.log("Error: ", e);
     }
