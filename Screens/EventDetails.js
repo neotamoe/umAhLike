@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, StyleSheet, Platform, TouchableOpacity } from 'react-native';
+import { View, Text, TextInput, StyleSheet, Platform, TouchableOpacity, SafeAreaView } from 'react-native';
 import { Divider, Button } from 'react-native-elements';
 import AsyncStorage from '@react-native-community/async-storage';
 
@@ -21,7 +21,7 @@ const EventDetails = ({navigation}) => {
   }
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <View style={styles.grouping}>
         <Text style={styles.title}>Speaker: </Text>
         <Text style={styles.data}>{name}</Text>
@@ -58,7 +58,7 @@ const EventDetails = ({navigation}) => {
           onPress={ removeEvent }
         />
       </View>
-    </View>
+    </SafeAreaView>
   )
 };
 

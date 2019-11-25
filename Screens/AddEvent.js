@@ -244,7 +244,7 @@ const AddEvent = ({navigation}) => {
           onBackdropPress={() => {setComments(''); setIsCommentsVisible(false)}}
         >
           <View>
-          <Text>Comments</Text>
+          <Text style={styles.header}>Comments</Text>
           <TextInput 
             style={ [styles.input, styles.inputInOverlay ] }
             placeholder='Enter comments (optional)'
@@ -254,12 +254,14 @@ const AddEvent = ({navigation}) => {
               setComments(text)
             }}
           />
+          <View style={styles.bottomButtonAnchor}> 
           <Button 
             title="OK"
             onPress={() => {
               setIsCommentsVisible(false);
             }}
           />
+          </View>
           </View>
         </Overlay>
         : <Button 
@@ -352,7 +354,7 @@ const styles = StyleSheet.create({
   },
   inputInOverlay: {
     height: '85%',
-    fontSize: 24,
+    fontSize: 16,
     marginRight: 0
   },
   half: {
@@ -374,6 +376,14 @@ const styles = StyleSheet.create({
   },
   comments: {
     marginBottom: 10
+  }, 
+  bottomButtonAnchor: {
+    flex: 1,
+    justifyContent: 'flex-end',
+  },
+  header: {
+    fontSize: 16,
+    fontWeight: 'bold'
   }
 })
 
