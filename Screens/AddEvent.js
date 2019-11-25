@@ -271,7 +271,7 @@ const AddEvent = ({navigation}) => {
       }
 
       <Button 
-        buttonStyle={styles.button}
+        buttonStyle={[styles.button, styles.saveButton]}
         title="Save Event" 
         onPress={() => {
           if(!name || name.trim()==="") { 
@@ -360,6 +360,9 @@ const styles = StyleSheet.create({
   button: {
     marginBottom: 10,
     marginRight: 10
+  },
+  saveButton: {
+    backgroundColor: 'green'
   }
 })
 
