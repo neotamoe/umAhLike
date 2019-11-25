@@ -241,7 +241,6 @@ const AddEvent = ({navigation}) => {
         isCommentsVisible ? 
         <Overlay 
           isVisible
-          onBackdropPress={() => {setComments(''); setIsCommentsVisible(false)}}
         >
           <View>
           <Text style={styles.header}>Comments</Text>
