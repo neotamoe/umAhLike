@@ -395,7 +395,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold'
   },
   commentsOverlay: {
-    height: '100%'
+    height: '80%'
   }
 })
 
