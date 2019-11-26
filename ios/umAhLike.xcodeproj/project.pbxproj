@@ -141,7 +141,6 @@
 			children = (
 			);
 			name = Resources;
-			path = "";
 			sourceTree = "<group>";
 		};
 		2D16E6871FA4F8E400B85C8A /* Frameworks */ = {
@@ -203,7 +202,6 @@
 				9885BD3302EE87FC8F4516D9 /* Pods-umAhLikeTests.debug.xcconfig */,
 				F45668F0B986E645FB9F19C3 /* Pods-umAhLikeTests.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -318,6 +316,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 				Base,
 			);

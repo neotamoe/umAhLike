@@ -36,7 +36,8 @@ const App = () =>  {
   return <AppContainer />;
 }
 
-export default withAuthenticator(App, false, [], null, MyTheme);
+export default App;
+// export default withAuthenticator(App, false, [], null, MyTheme);
 
 // using auth flow: example: https://reactnavigation.org/docs/en/auth-flow.html
 const AppStack = createStackNavigator({

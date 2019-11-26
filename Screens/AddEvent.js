@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TextInput, StyleSheet, Platform, ScrollView, TouchableOpacity, Switch } from 'react-native';
+import { View, Text, TextInput, StyleSheet, Platform, ScrollView, Dimensions, TouchableOpacity, Switch } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 
 import Stepper from '../Components/Stepper';
@@ -23,6 +23,7 @@ const AddEvent = ({navigation}) => {
   const [isEditing, setIsEditing] = useState(false);
   const [newUmsKeysObject, setNewUmsKeysObject] = useState({});
   const [topic, setTopic] = useState("");
+  const {width, height} = Dimensions.get('window');
 
   onStepperChange = (value, id) => {
     let tempUms = [...ums]
@@ -158,8 +159,9 @@ const AddEvent = ({navigation}) => {
           )
         }
       </View>
-      <Overlay isVisible={isEditing}>
-        <View>
+      <Overlay isVisible={isEditing} width={width-20}>
+        <ScrollView>
+        <Text style={styles.header}>Add/Edit Filler Words</Text>
         <Text>You can include up to 8 filler words.</Text>
         <Text>You cannot edit a filler word with a value > 0.</Text>
         {
@@ -200,6 +202,8 @@ const AddEvent = ({navigation}) => {
           />)
           : <></>
         }
+        <View style={styles.bottomButtonAnchor}> 
+
         <Button 
           title="OK"
           onPress={() => {
@@ -221,6 +225,7 @@ const AddEvent = ({navigation}) => {
           }}
         />
         </View>
+        </ScrollView>
       </Overlay>
       <View style={styles.bottomSectionContainer}>
       <Button 
@@ -241,6 +246,7 @@ const AddEvent = ({navigation}) => {
         isCommentsVisible ? 
         <Overlay 
           isVisible
+          width={width-20}
         >
           <View>
           <Text style={styles.header}>Comments</Text>
