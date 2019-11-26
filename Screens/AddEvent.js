@@ -362,7 +362,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row'
   },
   inputInOverlay: {
-    // height: '85%',
+    height: '50%',
     fontSize: 16,
     marginRight: 0
   },

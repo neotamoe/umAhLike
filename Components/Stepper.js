@@ -15,6 +15,7 @@ const Stepper = (props) => {
         </TouchableOpacity>
         <View style={styles.valueContainer}>
           <TextInput 
+            editable={false}
             id={props.id} 
             style={styles.value}
             onChange={(e) => { 
