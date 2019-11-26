@@ -159,11 +159,14 @@ const AddEvent = ({navigation}) => {
           )
         }
       </View>
-      <Overlay isVisible={isEditing} width={width-20}>
+      <Overlay 
+        isVisible={isEditing} 
+        width={width-20} 
+        overlayStyle={styles.commentsOverlay}
+      >
         <ScrollView>
         <Text style={styles.header}>Add/Edit Filler Words</Text>
-        <Text>You can include up to 8 filler words.</Text>
-        <Text>You cannot edit a filler word with a value > 0.</Text>
+        <Text>You can include up to 8 filler words.  You cannot edit a filler word with a value > 0.</Text>
         {
           ums.map((item, index) => 
           <View style={styles.dateTimeContainer} key={index}>
@@ -247,6 +250,7 @@ const AddEvent = ({navigation}) => {
         <Overlay 
           isVisible
           width={width-20}
+          overlayStyle={styles.commentsOverlay}
         >
           <View>
           <Text style={styles.header}>Comments</Text>
@@ -358,7 +362,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row'
   },
   inputInOverlay: {
-    height: '85%',
+    // height: '85%',
     fontSize: 16,
     marginRight: 0
   },
@@ -389,6 +393,9 @@ const styles = StyleSheet.create({
   header: {
     fontSize: 16,
     fontWeight: 'bold'
+  },
+  commentsOverlay: {
+    height: '100%'
   }
 })
 
