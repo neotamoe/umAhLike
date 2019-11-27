@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import { SafeView, View, ScrollView, Text, StyleSheet, Button, FlatList } from 'react-native';
-import { ListItem } from 'react-native-elements';
+import { List, ListItem, Divider } from 'react-native-elements';
 import AsyncStorage from '@react-native-community/async-storage';
 import { NavigationEvents } from 'react-navigation';
 
@@ -43,14 +43,16 @@ const Events = ({navigation}) => {
         data={events}
         keyExtractor={(item, index) => index.toString()}
         renderItem={({item, index}) => (
+          <>
           <ListItem 
             key={index} 
             title={item.display}
-            bottomDivider
-            chevron={true}
+            // bottomDivider={true}
+            // chevron={true}
             style={{height: 48}}
             onPress={() => navigation.navigate('EventDetails', {key: item.display, value: JSON.stringify(item)})}
           />
+          <Divider style={styles.listDivider}></Divider></>
         )}
       />
       : <Text style={styles.noEvents}>No speaker events saved.</Text>
@@ -66,6 +68,10 @@ const styles = StyleSheet.create({
   noEvents: {
     margin: 10,
     fontSize: 16
+  },
+  listDivider: {
+    borderColor: 'lightgray',
+    borderWidth: .5,
   }
 });
 
