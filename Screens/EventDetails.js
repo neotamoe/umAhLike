@@ -62,11 +62,9 @@ const EventDetails = ({navigation}) => {
   )
 };
 
-EventDetails.navigationOptions = ({navigation}) => {
-  let keyStringAsArray = navigation.getParam('key').split(" -- ");
-  let name = keyStringAsArray[1];
-  return { title: name }
-};
+EventDetails.navigationOptions = ({navigation}) => ({
+  title: "Details"
+});
 
 const styles = StyleSheet.create({
   container: {

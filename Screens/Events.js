@@ -70,7 +70,7 @@ const styles = StyleSheet.create({
 });
 
 Events.navigationOptions = ({ navigation }) => ({
-  title: "Events",
+  title: "UmAhLike",
   headerTitleStyle: {
     fontSize: 24
   },

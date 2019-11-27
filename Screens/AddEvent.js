@@ -252,7 +252,7 @@ const AddEvent = ({navigation}) => {
           width={width-20}
           overlayStyle={styles.commentsOverlay}
         >
-          <View>
+          <View style={styles.flexContainer}>
           <Text style={styles.header}>Comments</Text>
           <TextInput 
             style={ [styles.input, styles.inputInOverlay ] }
@@ -362,7 +362,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row'
   },
   inputInOverlay: {
-    height: '50%',
+    height: '80%',
     fontSize: 16,
     marginRight: 0
   },
@@ -395,7 +395,12 @@ const styles = StyleSheet.create({
     fontWeight: 'bold'
   },
   commentsOverlay: {
-    height: '80%'
+    height: '80%',
+  },
+  flexContainer: {
+    display: 'flex',
+    flex: 1,
+    marginBottom: 30
   }
 })
 
