@@ -14,23 +14,17 @@ const AuthCode = ({navigation}) => {
   const [authCode, setAuthCode] = useState('');
 
   let userParam = JSON.parse(navigation.getParam('user'));
-  console.log('userParam', userParam)
 
   confirmSignIn = () => { 
-    console.log('in confirm sign in')
-    console.log(userParam)
-    console.log('authCode:', authCode)
     Auth.confirmSignIn(userParam, authCode, "SMS_MFA")
       .then(user => {
-        console.log('user: ', user);
         navigation.navigate('Events');
       }).catch(err => {
-        console.log('error confirming sign in: ', err)
+        console.error('error confirming sign in: ', err)
       })
   };
 
   confirmUser = (username, authCode) => { 
-    console.log(`in confirm user: with username: ${username} and authCode: ${authCode}`)
     Auth.confirmSignUp(username, authCode)
       .then(res => {
         console.log('successful confirmation: ', res)
@@ -55,9 +49,6 @@ const AuthCode = ({navigation}) => {
       <Button 
         title="Authenticate"
         onPress={() => {
-          console.log("sign in with auth code button pushed");
-          // signInAsync();
-          // navigation.navigate('Events');
           confirmSignIn();
         }}
       />

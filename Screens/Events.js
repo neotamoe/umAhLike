@@ -26,7 +26,6 @@ const Events = ({navigation}) => {
     } catch(e) {
       console.log(`error removing ${key} from AsyncStorage: ${e}`)
     }
-    console.log('done with remove event function')
     getAllData();
   }
 
@@ -47,7 +46,6 @@ const Events = ({navigation}) => {
           <ListItem 
             key={index} 
             title={item.display}
-            // bottomDivider={true}
             // chevron={true}
             style={{height: 48}}
             onPress={() => navigation.navigate('EventDetails', {key: item.display, value: JSON.stringify(item)})}
@@ -84,7 +82,6 @@ Events.navigationOptions = ({ navigation }) => ({
     <Button 
       title="Add"
       onPress={() => {
-        console.log("add event button pushed")
         navigation.navigate('AddEvent')
       }}
     />

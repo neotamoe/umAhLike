@@ -36,9 +36,6 @@ const EventDetails = ({navigation}) => {
       </View>
       <Divider style={styles.divider}/>
       {
-        console.log(valueObject)
-      }
-      {
         umsArray.map((entry) => 
           <View style={[styles.grouping, styles.umGrouping]} key={entry.word}>
             <Text style={styles.title}>{entry.word}: </Text>

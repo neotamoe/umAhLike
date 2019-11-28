@@ -32,7 +32,6 @@ const AddEvent = ({navigation}) => {
       tempUms[index] = {"word": id, "count": value}
     }
     setUms(tempUms)
-    console.log(tempUms)
   }
 
   saveUms = async (name, ums) => {
@@ -48,7 +47,7 @@ const AddEvent = ({navigation}) => {
     try {
       await AsyncStorage.setItem(itemToSave.display, JSON.stringify(itemToSave))
     } catch (e) {
-      console.log("Error: ", e);
+      console.error("Error: ", e);
     }
   }
 
@@ -196,7 +195,6 @@ const AddEvent = ({navigation}) => {
             placeholder="Add Filler Word"
             autoCapitalize='none'
             onChangeText={text => {
-              console.log(text);
               setNewUmsKeysObject({
                 ...newUmsKeysObject,
                 [i]: text
@@ -211,16 +209,12 @@ const AddEvent = ({navigation}) => {
           title="OK"
           onPress={() => {
             setIsEditing(false)
-            console.log(newUmsKeysObject);
-            console.log(ums);
             let newKeys = Object.values(newUmsKeysObject);
             for(let newKey of newKeys){
               if(newKey !== ''){
                 setUms([...ums, {"word": newKey, "count": 0}]);
               }
             }
-            console.log("ums after adding new keys: ")
-            console.log(ums);
             setNewUmsKeysObject({});
             if(!umsHasAllValidStringWords()){
               createNewUms();

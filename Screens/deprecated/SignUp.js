@@ -14,11 +14,7 @@ const SignUp = ({navigation}) => {
     const [username, setUsername] = useState('');
     const [authCode, setAuthCode] = useState('');
 
-    // onChangeText = (authCode) => { 
-    //   setAuthCode( authCode )
-    // }
     signUp = (username, password, phoneNumber, email) => {
-      console.log(`in signUp method: params: ${username}, ${password}, ${phoneNumber}, ${email}`)
       Auth.signUp({ 
         username: username,
         password: password,
@@ -36,7 +32,6 @@ const SignUp = ({navigation}) => {
     }
 
     confirmUser = (username, authCode) => { 
-      console.log(`in confirm user: with username: ${username} and authCode: ${authCode}`)
       Auth.confirmSignUp(username, authCode)
         .then(res => {
           console.log('successful confirmation: ', res)
