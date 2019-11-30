@@ -46,11 +46,12 @@ const Events = ({navigation}) => {
           <ListItem 
             key={index} 
             title={item.display}
-            // chevron={true}
+            chevron={{color: 'darkgray'}}
             style={{height: 48}}
             onPress={() => navigation.navigate('EventDetails', {key: item.display, value: JSON.stringify(item)})}
           />
-          <Divider style={styles.listDivider}></Divider></>
+          <Divider style={styles.listDivider}></Divider>
+          </>
         )}
       />
       : <Text style={styles.noEvents}>No speaker events saved.</Text>
