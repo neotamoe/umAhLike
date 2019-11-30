@@ -164,132 +164,135 @@ const AddEvent = ({navigation}) => {
         overlayStyle={styles.commentsOverlay}
       >
         <ScrollView>
-        <Text style={styles.header}>Add/Edit Filler Words</Text>
-        <Text>You can include up to 8 filler words.  You cannot edit a filler word with a value > 0.</Text>
-        {
-          ums.map((item, index) => 
-          <View style={styles.dateTimeContainer} key={index}>
-            <TextInput 
-              editable={ums[index].count === 0}
-              style={ [styles.input, styles.half] }
-              value={item["word"]}
-              autoCapitalize='none'
-              onChangeText={text => {
-                let tempUms = [...ums];
-                let tempCount = ums[index].count;
-                tempUms[index] = {"word": text, "count": tempCount};
-                setUms(tempUms)  
-              }}
-            />
-            <Text style={[styles.half, styles.overlayValue]}>Current Value: {item["count"]}</Text>
+          <View style={styles.flexContainer}>
+            <Text style={styles.header}>Add/Edit Filler Words</Text>
+            <Text>You can include up to 8 filler words.  You cannot edit a filler word with a value > 0.</Text>
+            {/* <ScrollView style={styles.fillerWordsScrollView}> */}
+            {
+              ums.map((item, index) => 
+              <View style={styles.dateTimeContainer} key={index}>
+                <TextInput 
+                  editable={ums[index].count === 0}
+                  style={ [styles.input, styles.half] }
+                  value={item["word"]}
+                  autoCapitalize='none'
+                  onChangeText={text => {
+                    let tempUms = [...ums];
+                    let tempCount = ums[index].count;
+                    tempUms[index] = {"word": text, "count": tempCount};
+                    setUms(tempUms)  
+                  }}
+                />
+                <Text style={[styles.half, styles.overlayValue]}>Current Value: {item["count"]}</Text>
+              </View>
+              )
+            }
+            {
+              (8 - ums.length) > 0 ?
+              [...Array(8-ums.length)].map((e, i) =>             
+              <TextInput 
+                key={i}
+                value={newUmsKeysObject[i]}
+                style={ [styles.input, styles.half] }
+                placeholder="Add Filler Word"
+                autoCapitalize='none'
+                onChangeText={text => {
+                  setNewUmsKeysObject({
+                    ...newUmsKeysObject,
+                    [i]: text
+                  })
+                }}
+              />)
+              : <></>
+            }
+            <View style={styles.bottomButtonContainer}>
+              <Button 
+                title="OK"
+                onPress={() => {
+                  setIsEditing(false)
+                  let newKeys = Object.values(newUmsKeysObject);
+                  for(let newKey of newKeys){
+                    if(newKey !== ''){
+                      setUms([...ums, {"word": newKey, "count": 0}]);
+                    }
+                  }
+                  setNewUmsKeysObject({});
+                  if(!umsHasAllValidStringWords()){
+                    createNewUms();
+                  }
+                }}
+              />
+            </View>
           </View>
-          )
-        }
-        {
-          (8 - ums.length) > 0 ?
-          [...Array(8-ums.length)].map((e, i) =>             
-          <TextInput 
-            key={i}
-            value={newUmsKeysObject[i]}
-            style={ [styles.input, styles.half] }
-            placeholder="Add Filler Word"
-            autoCapitalize='none'
-            onChangeText={text => {
-              setNewUmsKeysObject({
-                ...newUmsKeysObject,
-                [i]: text
-              })
-            }}
-          />)
+          </ScrollView>
+
+        </Overlay>
+        <View style={styles.bottomSectionContainer}>
+        <Button 
+          buttonStyle={styles.button}
+          title="Add/Edit Filler Words"
+          onPress={() => {
+            setIsEditing(true);
+          }}
+        />
+        { comments !== "" ?
+          <>
+            <Text>Comments:</Text>
+            <Text style={styles.comments}>{comments}</Text>
+          </>
           : <></>
         }
-        <View style={styles.bottomButtonAnchor}> 
+        {
+          isCommentsVisible ? 
+          <Overlay 
+            isVisible
+            width={width-20}
+            overlayStyle={styles.commentsOverlay}
+          >
+            <View style={styles.flexContainer}>
+            <Text style={styles.header}>Comments</Text>
+            <TextInput 
+              style={ [styles.input, styles.inputInOverlay ] }
+              placeholder='Enter comments (optional)'
+              value={comments}
+              multiline={true}
+              onChangeText={text => {
+                setComments(text)
+              }}
+            />
+            <View style={styles.bottomButtonAnchor}> 
+            <Button 
+              title="OK"
+              onPress={() => {
+                setIsCommentsVisible(false);
+              }}
+            />
+            </View>
+            </View>
+          </Overlay>
+          : <Button 
+              buttonStyle={styles.button}
+              title={comments==="" ? "Add Comments" : "Edit Comments"}
+              onPress={() => {
+                setIsCommentsVisible(true);
+              }}
+            />
+        }
 
         <Button 
-          title="OK"
+          buttonStyle={[styles.button, styles.saveButton]}
+          title="Save Event" 
           onPress={() => {
-            setIsEditing(false)
-            let newKeys = Object.values(newUmsKeysObject);
-            for(let newKey of newKeys){
-              if(newKey !== ''){
-                setUms([...ums, {"word": newKey, "count": 0}]);
-              }
+            if(!name || name.trim()==="") { 
+              setNameError(true);
+              return; 
             }
-            setNewUmsKeysObject({});
-            if(!umsHasAllValidStringWords()){
-              createNewUms();
-            }
+            saveUms(name, ums);
+            navigation.navigate("Events");
           }}
         />
         </View>
-        </ScrollView>
-      </Overlay>
-      <View style={styles.bottomSectionContainer}>
-      <Button 
-        buttonStyle={styles.button}
-        title="Add/Edit Filler Words"
-        onPress={() => {
-          setIsEditing(true);
-        }}
-      />
-      { comments !== "" ?
-        <>
-          <Text>Comments:</Text>
-          <Text style={styles.comments}>{comments}</Text>
-        </>
-        : <></>
-      }
-      {
-        isCommentsVisible ? 
-        <Overlay 
-          isVisible
-          width={width-20}
-          overlayStyle={styles.commentsOverlay}
-        >
-          <View style={styles.flexContainer}>
-          <Text style={styles.header}>Comments</Text>
-          <TextInput 
-            style={ [styles.input, styles.inputInOverlay ] }
-            placeholder='Enter comments (optional)'
-            value={comments}
-            multiline={true}
-            onChangeText={text => {
-              setComments(text)
-            }}
-          />
-          <View style={styles.bottomButtonAnchor}> 
-          <Button 
-            title="OK"
-            onPress={() => {
-              setIsCommentsVisible(false);
-            }}
-          />
-          </View>
-          </View>
-        </Overlay>
-        : <Button 
-            buttonStyle={styles.button}
-            title={comments==="" ? "Add Comments" : "Edit Comments"}
-            onPress={() => {
-              setIsCommentsVisible(true);
-            }}
-          />
-      }
-
-      <Button 
-        buttonStyle={[styles.button, styles.saveButton]}
-        title="Save Event" 
-        onPress={() => {
-          if(!name || name.trim()==="") { 
-            setNameError(true);
-            return; 
-          }
-          saveUms(name, ums);
-          navigation.navigate("Events");
-        }}
-      />
       </View>
-    </View>
     </ScrollView>
   )
 };
@@ -391,10 +394,13 @@ const styles = StyleSheet.create({
   commentsOverlay: {
     height: '80%',
   },
+  bottomButtonContainer: {
+    marginTop: 30
+  },  
   flexContainer: {
     display: 'flex',
     flex: 1,
-    marginBottom: 30
+    marginBottom: 10
   }
 })
 
