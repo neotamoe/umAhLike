@@ -167,7 +167,6 @@ const AddEvent = ({navigation}) => {
           <View style={styles.flexContainer}>
             <Text style={styles.header}>Add/Edit Filler Words</Text>
             <Text>You can include up to 8 filler words.  You cannot edit a filler word with a value > 0.</Text>
-            {/* <ScrollView style={styles.fillerWordsScrollView}> */}
             {
               ums.map((item, index) => 
               <View style={styles.dateTimeContainer} key={index}>
