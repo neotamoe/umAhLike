@@ -70,6 +70,18 @@ const AddEvent = ({navigation}) => {
     setUms(newUms);
   }
 
+  const dateTimePicker = (<DateTimePicker value={date}
+  mode={mode}
+  is24Hour={true}
+  display="default"
+  onChange={(e, date) => {
+    Platform.OS === 'ios' ? setShow(true) : setShow(false);
+    setDate(date);
+    setFormattedDate(moment(date).format('MMM-DD-YYYY'));
+    setFormattedTime(moment(date).format('h:mm A'));
+  }} 
+  />);
+
   return (
     <ScrollView>
     <View style={styles.container}>
@@ -123,24 +135,18 @@ const AddEvent = ({navigation}) => {
           </Text>
         </View>
       </View>
-        { show && <DateTimePicker value={date}
-          mode={mode}
-          is24Hour={true}
-          display="default"
-          onChange={(e, date) => {
-            Platform.OS === 'ios' ? setShow(true) : setShow(false);
-            setDate(date);
-            setFormattedDate(moment(date).format('MMM-DD-YYYY'));
-            setFormattedTime(moment(date).format('h:mm A'));
-          }} 
-          />
-        }
-        { show && Platform.OS === 'ios' 
-          ? <Button 
+        { show && Platform.OS === 'ios' ? 
+          <Overlay overlayStyle={styles.iosDateTimePickerOverlay}>
+            {dateTimePicker}
+            <Button 
               title="OK"
               onPress={() => setShow(false)} 
             /> 
-          : null }
+          </Overlay> 
+          : show && Platform.OS !== 'ios' 
+          ? dateTimePicker 
+          : <></>
+        }
       <View style={styles.allSteppers}>
         {
           isEditing ?
@@ -400,6 +406,11 @@ const styles = StyleSheet.create({
     display: 'flex',
     flex: 1,
     marginBottom: 10
+  },
+  iosDateTimePickerOverlay: {
+    position: 'absolute',
+    height: '33%',
+    top: '33%'
   }
 })
 
