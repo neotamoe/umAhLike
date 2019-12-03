@@ -5,7 +5,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 import Stepper from '../Components/Stepper';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import moment from 'moment';
-// import ToggleSwitch from 'toggle-switch-react-native';
+import ToggleSwitch from 'toggle-switch-react-native';
 import { Overlay, Button } from 'react-native-elements';
 
 const AddEvent = ({navigation}) => {
@@ -71,16 +71,51 @@ const AddEvent = ({navigation}) => {
   }
 
   const dateTimePicker = (<DateTimePicker value={date}
-  mode={mode}
-  is24Hour={true}
-  display="default"
-  onChange={(e, date) => {
-    Platform.OS === 'ios' ? setShow(true) : setShow(false);
-    setDate(date);
-    setFormattedDate(moment(date).format('MMM-DD-YYYY'));
-    setFormattedTime(moment(date).format('h:mm A'));
-  }} 
+    mode={mode}
+    is24Hour={true}
+    display="default"
+    onChange={(e, date) => {
+      Platform.OS === 'ios' ? setShow(true) : setShow(false);
+      setDate(date);
+      setFormattedDate(moment(date).format('MMM-DD-YYYY'));
+      setFormattedTime(moment(date).format('h:mm A'));
+    }} 
   />);
+
+  // timer code from https://github.com/nabendu82/TimerReactNative/blob/master/App/index.js
+  const formatNumber = number => `0${number}`.slice(-2);
+
+  const getRemaining = (time) => {
+      const mins = Math.floor(time / 60);
+      const secs = time - mins * 60;
+      return { mins: formatNumber(mins), secs: formatNumber(secs) };
+  }
+
+  const [remainingSecs, setRemainingSecs] = useState(0);
+  const [isActive, setIsActive] = useState(false);
+  const { mins, secs } = getRemaining(remainingSecs);
+
+  toggle = () => {
+    setIsActive(!isActive);
+  }
+
+  reset = () => {
+    setRemainingSecs(0);
+    setIsActive(false);
+  }
+
+  useEffect(() => {
+    let interval = null;
+    if (isActive) {
+      interval = setInterval(() => {
+        setRemainingSecs(remainingSecs => remainingSecs + 1);
+      }, 1000);
+    } else if (!isActive && remainingSecs !== 0) {
+      clearInterval(interval);
+    }
+    return () => clearInterval(interval);
+  }, [isActive, remainingSecs]);
+
 
   return (
     <ScrollView>
@@ -105,8 +140,7 @@ const AddEvent = ({navigation}) => {
           setTopic(text)
         }}
       />
-      {/* consider looking at react native Switch instead of external dependency */}
-      {/* <ToggleSwitch 
+      <ToggleSwitch 
         isOn={showTimer}
         onColor="blue"
         label="Show Timer"
@@ -114,7 +148,20 @@ const AddEvent = ({navigation}) => {
         onToggle={() => {
           setShowTimer(!showTimer)
         }}
-      /> */}
+      />
+      {
+        showTimer ? 
+        <>
+          <Text style={styles.timerText}>{`${mins}:${secs}`}</Text>
+          <TouchableOpacity onPress={() => toggle()} style={styles.timerButton}>
+              <Text style={styles.buttonText}>{isActive ? 'Pause' : 'Start'}</Text>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => reset()} style={[styles.button, styles.buttonReset]}>
+              <Text style={[styles.buttonText, styles.buttonTextReset]}>Reset</Text>
+          </TouchableOpacity>
+        </>
+        : <></>
+      }
       <View style={styles.dateTimeContainer}>
         <View style={styles.halfWidth}>
           <Text>Date: </Text>
@@ -411,6 +458,30 @@ const styles = StyleSheet.create({
     position: 'absolute',
     height: '33%',
     top: '33%'
+  },
+  timerButton: {
+    borderWidth: 10,
+    borderColor: '#B9AAFF',
+    // width: '25%',
+    // height: '25%',
+    // borderRadius: 100,
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+  buttonText: {
+      fontSize: 45,
+      color: '#B9AAFF'
+  },
+  timerText: {
+      fontSize: 90,
+      marginBottom: 20
+  },
+  buttonReset: {
+      marginTop: 20,
+      borderColor: "#FF851B"
+  },
+  buttonTextReset: {
+    color: "#FF851B"
   }
 })
 
