@@ -140,29 +140,7 @@ const AddEvent = ({navigation}) => {
           setTopic(text)
         }}
       />
-      <ToggleSwitch 
-        isOn={showTimer}
-        onColor="blue"
-        label="Show Timer"
-        labelStyle={{color: "black"}}
-        onToggle={() => {
-          setShowTimer(!showTimer)
-        }}
-      />
-      {
-        showTimer ? 
-        <>
-          <Text style={styles.timerText}>{`${mins}:${secs}`}</Text>
-          <TouchableOpacity onPress={() => toggle()} style={styles.timerButton}>
-              <Text style={styles.buttonText}>{isActive ? 'Pause' : 'Start'}</Text>
-          </TouchableOpacity>
-          <TouchableOpacity onPress={() => reset()} style={[styles.button, styles.buttonReset]}>
-              <Text style={[styles.buttonText, styles.buttonTextReset]}>Reset</Text>
-          </TouchableOpacity>
-        </>
-        : <></>
-      }
-      <View style={styles.dateTimeContainer}>
+      <View style={[styles.dateTimeContainer, styles.comments]}>
         <View style={styles.halfWidth}>
           <Text>Date: </Text>
           <Text style={styles.dateTime} onPress={() => {
@@ -182,18 +160,46 @@ const AddEvent = ({navigation}) => {
           </Text>
         </View>
       </View>
-        { show && Platform.OS === 'ios' ? 
-          <Overlay overlayStyle={styles.iosDateTimePickerOverlay}>
-            {dateTimePicker}
-            <Button 
-              title="OK"
-              onPress={() => setShow(false)} 
-            /> 
-          </Overlay> 
-          : show && Platform.OS !== 'ios' 
-          ? dateTimePicker 
-          : <></>
-        }
+      { show && Platform.OS === 'ios' ? 
+        <Overlay overlayStyle={styles.iosDateTimePickerOverlay}>
+          {dateTimePicker}
+          <Button 
+            title="OK"
+            onPress={() => setShow(false)} 
+          /> 
+        </Overlay> 
+        : show && Platform.OS !== 'ios' 
+        ? dateTimePicker 
+        : <></>
+      }
+      <View style={styles.comments}>
+        <ToggleSwitch 
+          isOn={showTimer}
+          onColor="blue"
+          label="Show Timer"
+          labelStyle={{color: "black"}}
+          onToggle={() => {
+            setShowTimer(!showTimer)
+          }}
+        />
+      </View>
+      {
+        showTimer ? 
+        <View style={styles.timerContainer}>
+          <View style={[styles.dateTimeContainer, styles.spaceBetween]}>
+              <Button 
+                title={isActive ? 'Pause' : 'Start'}
+                onPress={() => toggle()}
+              />
+            <Text style={styles.timerText}>{`${mins}:${secs}`}</Text>
+              <Button 
+                title="Reset"
+                onPress={() => reset()}
+              />
+          </View>
+        </View>
+        : <></>
+      }
       <View style={styles.allSteppers}>
         {
           isEditing ?
@@ -277,7 +283,6 @@ const AddEvent = ({navigation}) => {
             </View>
           </View>
           </ScrollView>
-
         </Overlay>
         <View style={styles.bottomSectionContainer}>
         <Button 
@@ -459,29 +464,25 @@ const styles = StyleSheet.create({
     height: '33%',
     top: '33%'
   },
-  timerButton: {
-    borderWidth: 10,
-    borderColor: '#B9AAFF',
-    // width: '25%',
-    // height: '25%',
-    // borderRadius: 100,
+  timerButtons: {
     alignItems: 'center',
-    justifyContent: 'center'
-  },
-  buttonText: {
-      fontSize: 45,
-      color: '#B9AAFF'
+    justifyContent: 'center',
+
   },
   timerText: {
-      fontSize: 90,
-      marginBottom: 20
+    fontSize: 36,
   },
-  buttonReset: {
-      marginTop: 20,
-      borderColor: "#FF851B"
+  timerContainer: {
+    padding: 20,
+    marginRight: 10,
+    marginTop: 10,
+    marginBottom: 10,
+    borderColor: 'lightgray',
+    borderWidth: 1,
+    borderStyle: 'solid'
   },
-  buttonTextReset: {
-    color: "#FF851B"
+  spaceBetween: {
+    justifyContent: 'space-between'
   }
 })
 
