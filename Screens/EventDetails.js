@@ -43,11 +43,20 @@ const EventDetails = ({navigation}) => {
           </View>
         )
       }
-      
+      { valueObject.timer && valueObject.timer !== "00:00" ? 
+        <View style={[styles.grouping, styles.umGrouping]} key={valueObject.timer}>
+          <Text style={styles.title}>Timer: </Text>
+          <Text style={styles.data}>{valueObject.timer}</Text>
+        </View>  
+      : <></>
+      }    
+      { valueObject.comments !== "" ?     
       <View style={[styles.grouping, styles.umGrouping]} key={valueObject.comments}>
         <Text style={styles.title}>Comments: </Text>
         <Text style={styles.data}>{valueObject.comments}</Text>
       </View>
+      : <></>
+      }      
       <View style={styles.deleteButtonContainer}>
         <Button 
           title="Delete" 

@@ -35,6 +35,7 @@ const AddEvent = ({navigation}) => {
   }
 
   saveUms = async (name, ums) => {
+    const timerToSave = getRemaining(remainingSecs);
     const itemToSave = {
         "ums": ums,
         "date": formattedDate,
@@ -42,8 +43,10 @@ const AddEvent = ({navigation}) => {
         "name": name,
         "display":`${formattedDate} ${formattedTime} -- ${name}`,
         "comments": comments,
-        "topic": topic
+        "topic": topic,
+        "timer": `${timerToSave.mins}:${timerToSave.secs}`
     }
+    console.log(itemToSave);
     try {
       await AsyncStorage.setItem(itemToSave.display, JSON.stringify(itemToSave))
     } catch (e) {
